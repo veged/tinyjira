@@ -1,0 +1,6 @@
+[submodule "js/jsonrpc"]
+	path = js/jsonrpc
+	url = git@github.com:veged/jquery.jsonrpc.git
+[submodule "js/jquery"]
+	path = js/jquery
+	url = git://github.com/JackDanger/jquery.git
