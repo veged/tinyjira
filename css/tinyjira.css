@@ -1,0 +1,393 @@
+/* @group common */
+* {
+    font-size: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: #fff;
+    color: #000000;
+    font-family: Arial,sans-serif;
+    font-size: 0.8em;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: normal;
+    padding: 0 0 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    padding: 0;
+}
+
+table, table th, table td {
+    border-collapse: collapse;
+    empty-cells: show;
+    padding: 0;
+    text-align: left;
+    vertical-align: top;
+}
+
+ol, ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+ol, ul, li {
+    padding: 0;
+}
+
+code, input, textarea {
+    font-family: Arial,sans-serif;
+}
+
+a {
+    text-decoration: underline;
+}
+
+a:hover {
+    color:#FF643B !important;
+}
+
+a img {
+    border: 0 none;
+}
+
+b {
+    font-weight: normal;
+}
+
+i {
+    font-style: normal;
+}
+
+h1, h2, h3 {
+    font-size: 180%;
+}
+.g-hidden {
+    display: none !important;
+}
+
+/* @end */
+
+/* @group b-head */
+.b-head {
+    width: 100%;
+}
+
+.b-head td {
+	width: 2%;
+}
+
+.b-head .l {
+    width: 16%;
+}
+
+.b-head .service {
+    text-align: right;
+    padding: 0.5em 0;
+}
+
+.b-head .service,
+.b-head .head-line {
+    width: 80%;
+}
+.b-head .service .b-login {
+	height: 1em;
+}
+
+.b-head .service .b-user {
+    font-weight: bold;
+}
+.b-head .login {
+    color: #060;
+}
+
+.b-head .logout {
+    color: #900;
+}
+
+.b-head-line {
+    padding: 0.1em 0 0.3em 0.9em;
+    background: #03f;
+}
+
+.b-head-line h1 {
+    padding-right: 3.5em;
+    color: #fff;
+}
+
+/* @end */
+
+/* @group b-page */
+.b-page {
+    margin: 2em 2% 1em 18%;
+}
+.b-page-content {
+	width: 100%;
+}
+
+.b-page h2 {
+    margin-bottom: 0.4em;
+}
+/* @end */
+
+/* @group b-progress */
+.b-progress img {
+    vertical-align: middle;
+}
+
+/* @end */
+
+/* @group b-cursor-progress */
+.b-cursor-progress img {
+    width: 16px;
+    height: 16px;
+    background-image: url(../i/progress2.gif);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.b-cursor-progress-1 img {
+    background-position: -16px 0;
+}
+.b-cursor-progress-2 img {
+    background-position: -32px 0;
+}
+.b-cursor-progress-3 img {
+    background-position: -48px 0;
+}
+.b-cursor-progress-4 img {
+    background-position: -64px 0;
+}
+.b-cursor-progress-5 img {
+    background-position: -80px 0;
+}
+/* @end */
+
+
+
+/* @group b-issues-table */
+.b-issues-table table {
+	width: 100%;
+}
+
+.b-issues-table th {
+    padding: 0.1em 1em 0 0;
+    border-bottom: 1px solid #000;
+}
+
+.b-issues-table td {
+    padding: 0.7em 1em 0.2em 0;
+    border-bottom: 1px solid #fefefe;
+}
+
+tr.hover td {
+	/*background-color: #f7f7f7;*/
+    border-bottom: 1px solid #ccc;
+}
+
+.b-issues-table th.progress {
+    border-bottom: 1px solid #fff;
+    padding-right: 0.5em;
+}
+
+.b-issues-table th.progress div {
+    width: 80px;
+}
+
+.b-issues-table td.progress,
+tr.hover td.progress,
+.b-issues-table tr.hover td.progress {
+    border-bottom: 1px solid #fff !important;
+    padding: 0.7em 0 0.2em 0.5em;
+}
+
+/* @group alltext */
+.b-issues-table .alltext-descopen .description {
+    display: block;
+}
+
+.b-issues-table .alltext-descclosed .description {
+    display: none;
+}
+
+/* @end */
+
+/* @group inline-form */
+
+.b-issues-table tr.with-inline-form td {
+    border-bottom: 1px solid #fff;
+}
+
+.b-issues-table .inline-form-decoration td {
+	font-size: 1px;
+	height: 5px;
+    border-bottom: none !important;
+}
+
+.b-issues-table .inline-form-decoration td.with-inline-form {
+    background-color: #ccc;
+}
+
+.b-issues-table .inline-form td {
+    padding: 1em;
+    border-bottom: 1px solid #fff !important;
+    background-color: #f7f7f7;
+}
+
+.b-issues-table .inline-form td.progress {
+    background-color: #fff;
+}
+
+/* @end */
+
+/* @group b-priority */
+.b-priority {
+    width: 80px;
+}
+.b-priority .pr {
+	float: left;
+}
+.pr img {
+    width: 16px;
+    height: 16px;
+    background-image: url(../i/priority2.gif);
+    background-repeat: no-repeat;
+    background-position: 16px 16px;
+}
+
+tr.hover .b-priority img {
+    background-position: 0 0;
+}
+
+td.hover .b-priority img,
+tr.hover td.hover .b-priority img {
+    background-position: 0 -16px;
+}
+
+.pr-trivial-set a img,
+tr.hover .pr-trivial-set a img {
+    background-position: -16px 0;
+}
+
+.pr-minor-set a img,
+tr.hover .pr-minor-set a img {
+    background-position: -32px 0;
+}
+
+.pr-normal-set a img,
+tr.hover .pr-normal-set a img {
+    background-position: -48px 0;
+}
+
+.pr-critical-set a img,
+tr.hover .pr-critical-set a img {
+    background-position: -64px 0;
+}
+
+.pr-blocker-set a img,
+tr.hover .pr-blocker-set a img {
+    background-position: -80px 0;
+}
+
+
+td.hover .pr-trivial-set a img,
+tr.hover td.hover .pr-trivial-set a img,
+.pr-trivial a:hover img,
+tr.hover .pr-trivial a:hover img {
+    background-position: -16px -16px;
+}
+
+td.hover .pr-minor-set a img,
+tr.hover td.hover .pr-minor-set a img,
+.pr-minor a:hover img,
+tr.hover .pr-minor a:hover img {
+    background-position: -32px -16px;
+}
+
+td.hover .pr-normal-set a img,
+tr.hover td.hover .pr-normal-set a img,
+.pr-normal a:hover img,
+tr.hover .pr-normal a:hover img {
+    background-position: -48px -16px;
+}
+
+td.hover .pr-critical-set a img,
+tr.hover td.hover .pr-critical-set a img,
+.pr-critical a:hover img,
+tr.hover .pr-critical a:hover img {
+    background-position: -64px -16px;
+}
+
+td.hover .pr-blocker-set a img,
+tr.hover td.hover .pr-blocker-set a img,
+.pr-blocker a:hover img,
+tr.hover .pr-blocker a:hover img {
+    background-position: -80px -16px;
+}
+
+/* @end */
+
+/* @group b-status */
+.b-status {
+    width: 48px;
+}
+.b-status .st {
+	float: left;
+}
+
+.st img {
+    width: 16px;
+    height: 16px;
+    background-image: url(../i/status2.gif);
+    background-repeat: no-repeat;
+    background-position: 16px 16px;
+}
+
+tr.hover .b-status img {
+    background-position: 0 0;
+}
+
+td.hover .b-status img,
+tr.hover td.hover .b-status img {
+    background-position: -16px 0;
+}
+
+.st-needinfo-set a img,
+tr.hover .st-needinfo-set a img,
+td.hover .st-needinfo-set a img,
+tr.hover td.hover .st-needinfo-set a img,
+.st-needinfo a:hover img,
+tr.hover td.hover .st-needinfo a:hover img {
+    background-position: -32px 0;
+}
+
+.st-open-set a img,
+tr.hover .st-open-set a img,
+td.hover .st-open-set a img,
+tr.hover td.hover .st-open-set a img,
+.st-open a:hover img,
+tr.hover td.hover .st-open a:hover img {
+    background-position: -48px 0;
+}
+
+.st-closed-set a img,
+tr.hover .st-closed-set a img,
+td.hover .st-closed-set a img,
+tr.hover td.hover .st-closed-set a img,
+.st-closed a:hover img,
+tr.hover td.hover .st-closed a:hover img {
+    background-position: -64px 0;
+}
+
+/* @end */
+/* @end */
+
+
+
+
