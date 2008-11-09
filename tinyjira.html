@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+        <!--[if gt IE 7]><!-->
+        <link rel="stylesheet" href="css/tinyjira.css" />
+        <!--<![endif]-->
+        <!--[if lt IE 8]><link rel=stylesheet href="css/tinyjira-ie.css"><![endif]-->
+		<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.hoverable.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jsonrpc/jquery.jsonrpc.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/TinyJira/TinyJira.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Issue.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Issues.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Filter.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Filters.js"></script>
+		<script type="text/javascript">
+            $(document).ready(function(){
+                TinyJira.init(function(){
+                    jQuery.jsonRpc({
+                        url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+                        method: TinyJira.jira.soap + '.getSavedFilters',
+                        params: [null],
+                        success: function(x){
+                            (new TinyJira.Filters(x.result)).toDOM($('.b-page-content'));
+                        }
+                    });
+                });
+            });
+        </script>
+	</head>
+    <body>
+        <table class="b-head">
+            <tr>
+                <td></td>
+                <td class="l"></td>
+                <td class="service">
+                </td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td class="logo">
+                </td>
+                <td class="head-line">
+                    <div class="b-head-line">
+                        <h1>джиронька</h1>
+                    </div>
+                </td>
+                <td></td>
+            </tr>
+        </table>
+        <div class="b-page">
+        <div class="b-page-content">
+        </div>
+        </div>
+    </body>
+</html>

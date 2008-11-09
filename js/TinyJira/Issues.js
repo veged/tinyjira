@@ -6,7 +6,7 @@ TinyJira.Issues = function(json) {
 };
 TinyJira.Issues.prototype.toDOM = function(parentNode) {
     var dom = $('<div>' +
-        '<h2>Текущие задачи</h2>' +
+        '<h2>Задачи</h2>' +
         '<div class="b-issues-table TinyJira-c-IssuesTable">' +
         '<table>' +
             '<tr>' +
