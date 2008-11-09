@@ -91,7 +91,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                         priorityDiv.append(
                             $('<div class="pr' + (' pr-' + p) + set + '"></div>')
                             .append(
-                                $('<a href="#"><img src="i/x.gif" alt=""/></a>')
+                                $('<a href="#"><i></i></a>')
                                 .click(function(e){
                                     e.preventDefault();
                                     thisIssue.setPriority(5 - i);
@@ -129,7 +129,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                         statusDiv.append(
                             $('<div class="st' + (' st-' + s) + set + '"></div>')
                             .append(
-                                $('<a href="#"><img src="i/x.gif" alt=""/></a>')
+                                $('<a href="#"><i></i></a>')
                                 .click(function(){ thisIssue.progressWorkflowAction(actions[s]) })
                             )
                         )
@@ -206,7 +206,7 @@ TinyJira.Issue.prototype.hideForm = function(target) {
 };
 
 TinyJira.Issue.prototype.startProgress = function() {
-    this.dom.find('td.progress').html('<span class="b-progress"><img src="i/progress_80.gif" width="80" height="16" alt="..." /></span>');
+    this.dom.find('td.progress').html('<span class="b-progress"><i></i></span>');
 };
 
 TinyJira.Issue.prototype.stopProgress = function() {

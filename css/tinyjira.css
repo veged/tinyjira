@@ -137,14 +137,20 @@ h1, h2, h3 {
 /* @end */
 
 /* @group b-progress */
-.b-progress img {
-    vertical-align: middle;
+.b-progress i {
+    display: block;
+    width: 80px;
+    height: 16px;
+    background-image: url(../i/progress_80.gif);
+    background-repeat: no-repeat;
+    background-position: 0 0;
 }
 
 /* @end */
 
 /* @group b-cursor-progress */
-.b-cursor-progress img {
+.b-cursor-progress i {
+    display: block;
     width: 16px;
     height: 16px;
     background-image: url(../i/progress2.gif);
@@ -152,19 +158,19 @@ h1, h2, h3 {
     background-position: 0 0;
 }
 
-.b-cursor-progress-1 img {
+.b-cursor-progress-1 i {
     background-position: -16px 0;
 }
-.b-cursor-progress-2 img {
+.b-cursor-progress-2 i {
     background-position: -32px 0;
 }
-.b-cursor-progress-3 img {
+.b-cursor-progress-3 i {
     background-position: -48px 0;
 }
-.b-cursor-progress-4 img {
+.b-cursor-progress-4 i {
     background-position: -64px 0;
 }
-.b-cursor-progress-5 img {
+.b-cursor-progress-5 i {
     background-position: -80px 0;
 }
 /* @end */
@@ -266,7 +272,13 @@ tr.hover td.progress,
 .b-priority .pr {
 	float: left;
 }
-.pr img {
+
+.pr a,
+.pr i {
+    display: block;
+}
+
+.pr i {
     width: 16px;
     height: 16px;
     background-image: url(../i/priority2.gif);
@@ -274,73 +286,73 @@ tr.hover td.progress,
     background-position: 16px 16px;
 }
 
-tr.hover .b-priority img {
+tr.hover .b-priority i {
     background-position: 0 0;
 }
 
-td.hover .b-priority img,
-tr.hover td.hover .b-priority img {
+td.hover .b-priority i,
+tr.hover td.hover .b-priority i {
     background-position: 0 -16px;
 }
 
-.pr-trivial-set a img,
-tr.hover .pr-trivial-set a img {
+.pr-trivial-set a i,
+tr.hover .pr-trivial-set a i {
     background-position: -16px 0;
 }
 
-.pr-minor-set a img,
-tr.hover .pr-minor-set a img {
+.pr-minor-set a i,
+tr.hover .pr-minor-set a i {
     background-position: -32px 0;
 }
 
-.pr-normal-set a img,
-tr.hover .pr-normal-set a img {
+.pr-normal-set a i,
+tr.hover .pr-normal-set a i {
     background-position: -48px 0;
 }
 
-.pr-critical-set a img,
-tr.hover .pr-critical-set a img {
+.pr-critical-set a i,
+tr.hover .pr-critical-set a i {
     background-position: -64px 0;
 }
 
-.pr-blocker-set a img,
-tr.hover .pr-blocker-set a img {
+.pr-blocker-set a i,
+tr.hover .pr-blocker-set a i {
     background-position: -80px 0;
 }
 
 
-td.hover .pr-trivial-set a img,
-tr.hover td.hover .pr-trivial-set a img,
-.pr-trivial a:hover img,
-tr.hover .pr-trivial a:hover img {
+td.hover .pr-trivial-set a i,
+tr.hover td.hover .pr-trivial-set a i,
+.pr-trivial a:hover i,
+tr.hover .pr-trivial a:hover i {
     background-position: -16px -16px;
 }
 
-td.hover .pr-minor-set a img,
-tr.hover td.hover .pr-minor-set a img,
-.pr-minor a:hover img,
-tr.hover .pr-minor a:hover img {
+td.hover .pr-minor-set a i,
+tr.hover td.hover .pr-minor-set a i,
+.pr-minor a:hover i,
+tr.hover .pr-minor a:hover i {
     background-position: -32px -16px;
 }
 
-td.hover .pr-normal-set a img,
-tr.hover td.hover .pr-normal-set a img,
-.pr-normal a:hover img,
-tr.hover .pr-normal a:hover img {
+td.hover .pr-normal-set a i,
+tr.hover td.hover .pr-normal-set a i,
+.pr-normal a:hover i,
+tr.hover .pr-normal a:hover i {
     background-position: -48px -16px;
 }
 
-td.hover .pr-critical-set a img,
-tr.hover td.hover .pr-critical-set a img,
-.pr-critical a:hover img,
-tr.hover .pr-critical a:hover img {
+td.hover .pr-critical-set a i,
+tr.hover td.hover .pr-critical-set a i,
+.pr-critical a:hover i,
+tr.hover .pr-critical a:hover i {
     background-position: -64px -16px;
 }
 
-td.hover .pr-blocker-set a img,
-tr.hover td.hover .pr-blocker-set a img,
-.pr-blocker a:hover img,
-tr.hover .pr-blocker a:hover img {
+td.hover .pr-blocker-set a i,
+tr.hover td.hover .pr-blocker-set a i,
+.pr-blocker a:hover i,
+tr.hover .pr-blocker a:hover i {
     background-position: -80px -16px;
 }
 
@@ -354,7 +366,12 @@ tr.hover .pr-blocker a:hover img {
 	float: left;
 }
 
-.st img {
+.st a,
+.st i {
+    display: block;
+}
+
+.st i {
     width: 16px;
     height: 16px;
     background-image: url(../i/status2.gif);
@@ -362,39 +379,39 @@ tr.hover .pr-blocker a:hover img {
     background-position: 16px 16px;
 }
 
-tr.hover .b-status img {
+tr.hover .b-status i {
     background-position: 0 0;
 }
 
-td.hover .b-status img,
-tr.hover td.hover .b-status img {
+td.hover .b-status i,
+tr.hover td.hover .b-status i {
     background-position: -16px 0;
 }
 
-.st-needinfo-set a img,
-tr.hover .st-needinfo-set a img,
-td.hover .st-needinfo-set a img,
-tr.hover td.hover .st-needinfo-set a img,
-.st-needinfo a:hover img,
-tr.hover td.hover .st-needinfo a:hover img {
+.st-needinfo-set a i,
+tr.hover .st-needinfo-set a i,
+td.hover .st-needinfo-set a i,
+tr.hover td.hover .st-needinfo-set a i,
+.st-needinfo a:hover i,
+tr.hover td.hover .st-needinfo a:hover i {
     background-position: -32px 0;
 }
 
-.st-open-set a img,
-tr.hover .st-open-set a img,
-td.hover .st-open-set a img,
-tr.hover td.hover .st-open-set a img,
-.st-open a:hover img,
-tr.hover td.hover .st-open a:hover img {
+.st-open-set a i,
+tr.hover .st-open-set a i,
+td.hover .st-open-set a i,
+tr.hover td.hover .st-open-set a i,
+.st-open a:hover i,
+tr.hover td.hover .st-open a:hover i {
     background-position: -48px 0;
 }
 
-.st-closed-set a img,
-tr.hover .st-closed-set a img,
-td.hover .st-closed-set a img,
-tr.hover td.hover .st-closed-set a img,
-.st-closed a:hover img,
-tr.hover td.hover .st-closed a:hover img {
+.st-closed-set a i,
+tr.hover .st-closed-set a i,
+td.hover .st-closed-set a i,
+tr.hover td.hover .st-closed-set a i,
+.st-closed a:hover i,
+tr.hover td.hover .st-closed a:hover i {
     background-position: -64px 0;
 }
 
