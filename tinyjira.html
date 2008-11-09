@@ -8,7 +8,8 @@
         <!--<![endif]-->
         <!--[if lt IE 8]><link rel=stylesheet href="css/tinyjira-ie.css"><![endif]-->
 		<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/jquery.hoverable.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.delegate.js"></script>
+        <!--<script type="text/javascript" charset="utf-8" src="js/jquery.hoverable.js"></script>-->
 		<script type="text/javascript" charset="utf-8" src="js/jsonrpc/jquery.jsonrpc.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/TinyJira/TinyJira.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Issue.js"></script>
@@ -17,6 +18,9 @@
 		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Filters.js"></script>
 		<script type="text/javascript">
             $(document).ready(function(){
+                $('.b-page-content')
+                    .delegate('mouseover', 'tr, td', function(){$(this).addClass('hover')})
+                    .delegate('mouseout', 'tr, td', function(){$(this).removeClass('hover')});
                 TinyJira.init(function(){
                     jQuery.jsonRpc({
                         url: TinyJira.jira.url + '/plugins/servlet/rpc/json',

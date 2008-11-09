@@ -8,7 +8,8 @@
         <!--<![endif]-->
         <!--[if lt IE 8]><link rel=stylesheet href="css/tinyjira-ie.css"><![endif]-->
 		<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
-		<script type="text/javascript" charset="utf-8" src="js/jquery.hoverable.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.delegate.js"></script>
+        <!--<script type="text/javascript" charset="utf-8" src="js/jquery.hoverable.js"></script>-->
 		<script type="text/javascript" charset="utf-8" src="js/jsonrpc/jquery.jsonrpc.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/TinyJira/TinyJira.js"></script>
 		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Issue.js"></script>
@@ -16,7 +17,9 @@
         <!--<script type="text/javascript" charset="utf-8" src="js/TinyJira/JiraProxy.js"></script>-->
 		<script type="text/javascript">
             $(document).ready(function(){
-                $('tr, td').hoverable();
+                $('.b-page-content')
+                    .delegate('mouseover', 'tr, td', function(){$(this).addClass('hover')})
+                    .delegate('mouseout', 'tr, td', function(){$(this).removeClass('hover')});
                 (new TinyJira.Issue(
                     {
                         key: 'BLA-123',
@@ -48,7 +51,7 @@
                         priority: '2',
                         status: '1'
                     },
-                ])).toDOM($('.b-page'));
+                ])).toDOM($('.b-page-content'));
             });
         </script>
 	</head>

@@ -16,15 +16,18 @@ TinyJira.Issue.prototype.setPriority = function(priority) {
         }}, true],
         complete: function(){ thisIssue.stopProgress() },
         success: function(x){
+            var oldDOM = thisIssue.dom;
             thisIssue.json = x.result.issue;
-            thisIssue.dom.replaceWith(thisIssue.toDOM());
+            var newDOM = thisIssue.toDOM();
+            oldDOM.hide().after(newDOM);
+            setTimeout(function(){oldDOM.remove()}, 1);
         }
     });
 };
 
 TinyJira.Issue.prototype.update = function(fieldValues) {
     var thisIssue = this;
-    this.dom.find('td.progress').html("<span class=\"b-progress\"><img src=\"i/progress_80.gif\" width=\"80\" height=\"16\" alt=\"...\" /></span>");
+    thisIssue.startProgress();
     /*
     TinyJira.jira.xmlrpc.call({
         method: "jiraYandex.updateIssue",
@@ -46,16 +49,71 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(fieldValues) {
 
 TinyJira.Issue.prototype.toDOM = function(parentNode) {
     var thisIssue = this;
-    var tr = $(document.createElement('tr'))
-        .hoverable()
+    var trHTML = '<tr>' +
+        '<td><a' +
+            ' href="TinyJira.server.baseUrl/browse/' + thisIssue.json.key + '"' +
+            ' style="white-space: nowrap;">' +
+                thisIssue.json.key +
+        '</a></td>';
 
+    trHTML += '<td class="alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '') + '">' +
+            '<div class="summary">' + String(thisIssue.json.summary) + '</div>';
+    if (thisIssue.json.description) {
+        trHTML += '<div class="description">' + String(thisIssue.json.description) + '</div>';
+    }
+    trHTML += '</td>';
+
+    trHTML += '<td class="priority">' +
+        '<div class="b-priority">';
+    var priorities = ["trivial", "minor", "normal", "critical", "blocker"];
+    $(priorities).each(function(i, p){
+        var set = 5 - i == thisIssue.json.priority ? " pr-" + p + "-set" : "";
+        trHTML += '<div class="pr' + (' pr-' + p) + set + '"><a class="a-pr" href="javascript:" onclick="return ' + (5 - i) + '"><i></i></a></div>'
+    });
+    trHTML += '</div>' +
+        '</td>';
+
+    trHTML += '<td class="status">' +
+        '<div class="b-status">';
+    var statuses = {
+        '10001': "needinfo",
+        '1': "open",
+        '6': "closed",
+        '5': "closed"
+    };
+    var actions = {
+        needinfo: "31",
+        open: "91",
+        closed: "11"
+    };
+    $(["needinfo", "open", "closed"]).each(function(i, s){
+        var set = statuses[thisIssue.json.status] == s ? " st-" + s + "-set" : "";
+        trHTML += '<div class="st' + (' st-' + s) + set + '"><a class="a-st" href="javascript:" onclick="return ' + actions[s] +'"><i></i></a></div>'
+    });
+    trHTML += '</div>' +
+        '</td>';
+
+    trHTML += '<td class="progress"></td>' +
+        '</tr>';
+    var tr = $(trHTML)
+        .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; });
+
+    this.dom = tr;
+
+    if (parentNode) $(parentNode).append(tr);
+
+    return tr;
+};
+
+TinyJira.Issue.prototype.toDOM1 = function(parentNode) {
+    var thisIssue = this;
+    var tr = $(document.createElement('tr'))
         .append(
             $('<td><a' +
                 ' href="TinyJira.server.baseUrl/browse/' + this.json.key + '"' +
                 ' style="white-space: nowrap;">' +
                     this.json.key +
             '</a></td>')
-            .hoverable()
         )
 
         .append(
@@ -76,7 +134,6 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                     )
                 }
             })
-            .hoverable()
         )
 
         .append(
@@ -91,7 +148,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                         priorityDiv.append(
                             $('<div class="pr' + (' pr-' + p) + set + '"></div>')
                             .append(
-                                $('<a href="#"><i></i></a>')
+                                $('<a href="javascript:"><i></i></a>')
                                 .click(function(e){
                                     e.preventDefault();
                                     thisIssue.setPriority(5 - i);
@@ -101,7 +158,6 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                     });
                 })
             )
-            .hoverable()
         )
 
 
@@ -129,7 +185,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                         statusDiv.append(
                             $('<div class="st' + (' st-' + s) + set + '"></div>')
                             .append(
-                                $('<a href="#"><i></i></a>')
+                                $('<a href="javascript:"><i></i></a>')
                                 .click(function(){ thisIssue.progressWorkflowAction(actions[s]) })
                             )
                         )
@@ -137,14 +193,14 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
 
                 })
             )
-            .hoverable()
         )
 
         .append($('<td class="progress"></td>'));
 
+    this.dom = tr;
+
     if (parentNode) $(parentNode).append(tr);
 
-    this.dom = tr;
     return tr;
 };
 
@@ -170,7 +226,7 @@ TinyJira.Issue.prototype.createForm = function(target) {
                     '<br/><br/><input type="button" value="\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C"/> \u0438\u043B\u0438&nbsp;'
                 + '</form>')
                 .append(
-                    $('<a href="#">\u041E\u0442\u043C\u0435\u043D\u0430</a>')
+                    $('<a href="javascript:">\u041E\u0442\u043C\u0435\u043D\u0430</a>')
                     .click(function(){ thisIssue.hideForm() })
                 )
             )
