@@ -125,14 +125,14 @@ h1, h2, h3 {
 
 /* @group b-page */
 .b-page {
-    margin: 2em 2% 1em 18%;
+    margin: 1em 2% 1em 18%;
 }
 .b-page-content {
 	width: 100%;
 }
 
 .b-page h2 {
-    margin-bottom: 0.4em;
+    margin: 1em 0 0.4em 0;
 }
 /* @end */
 
@@ -208,6 +208,19 @@ tr.hover td.progress,
 }
 
 /* @group alltext */
+.b-issues-table .summary {
+    cursor: pointer;
+}
+
+.b-issues-table .description {
+    line-height: 1.5;
+}
+
+.b-issues-table .alltext-descopen .summary {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+
 .b-issues-table .alltext-descopen .description {
     display: block;
 }

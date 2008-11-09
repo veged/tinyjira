@@ -1,1 +1,5 @@
 @import url(tinyjira.css);
+
+.b-issues-table .summary {
+    cursor: hand;
+}
