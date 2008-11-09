@@ -5,6 +5,23 @@ TinyJira.Issue = function(json) {
     this.json = json;
 };
 
+TinyJira.Issue.prototype.setPriority = function(priority) {
+    var thisIssue = this;
+    thisIssue.startProgress();
+    jQuery.jsonRpc({
+        url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+        method: 'jira.updateIssue',
+        params: [null, thisIssue.json.key, { javaClass: "java.util.HashMap", map: {
+            priority: [String(priority)]
+        }}, true],
+        complete: function(){ thisIssue.stopProgress() },
+        success: function(x){
+            thisIssue.json = x.result.issue;
+            thisIssue.dom.replaceWith(thisIssue.toDOM());
+        }
+    });
+};
+
 TinyJira.Issue.prototype.update = function(fieldValues) {
     var thisIssue = this;
     this.dom.find('td.progress').html("<span class=\"b-progress\"><img src=\"i/progress_80.gif\" width=\"80\" height=\"16\" alt=\"...\" /></span>");
@@ -25,22 +42,6 @@ TinyJira.Issue.prototype.update = function(fieldValues) {
 };
 
 TinyJira.Issue.prototype.progressWorkflowAction = function(fieldValues) {
-    var thisIssue = this;
-    this.dom.find('td.progress').html("<span class=\"b-progress\"><img src=\"i/progress_80.gif\" width=\"80\" height=\"16\" alt=\"...\" /></span>");
-    /*
-    TinyJira.jira.xmlrpc.call({
-        method: "jiraYandex.progressWorkflowAction",
-        params: [TinyJira.jira.user.auth, this.json.key, action, []],
-        onload: function(json){
-            thisIssue.json = json;
-            y5.Dom.replaceNode(thisIssue.dom, thisIssue.toDOM());
-        },
-        onerror: function(e){
-            y5.Console.warn("Error on progressWorkflowAction. ", e, ["TinyJira"]);
-            y5.Dom.replaceNode(thisIssue.dom, thisIssue.toDOM());
-        }
-    });
-    */
 };
 
 TinyJira.Issue.prototype.toDOM = function(parentNode) {
@@ -91,7 +92,10 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                             $('<div class="pr' + (' pr-' + p) + set + '"></div>')
                             .append(
                                 $('<a href="#"><img src="i/x.gif" alt=""/></a>')
-                                .click(function(){ thisIssue.update({ priority: [String(5 - i)] }) })
+                                .click(function(e){
+                                    e.preventDefault();
+                                    thisIssue.setPriority(5 - i);
+                                })
                             )
                         );
                     });
@@ -201,3 +205,10 @@ TinyJira.Issue.prototype.hideForm = function(target) {
     delete this.form;
 };
 
+TinyJira.Issue.prototype.startProgress = function() {
+    this.dom.find('td.progress').html('<span class="b-progress"><img src="i/progress_80.gif" width="80" height="16" alt="..." /></span>');
+};
+
+TinyJira.Issue.prototype.stopProgress = function() {
+    this.dom.find('td.progress').html('');
+};
