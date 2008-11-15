@@ -103,7 +103,8 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
     ]);
 
     var tr = $(trHTML)
-        .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; });
+        .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; })
+        .delegate('click', '.alltext-descclosed, .alltext-descopen', function(){ $(this).toggleClass('alltext-descclosed').toggleClass('alltext-descopen'); return false; });
 
     this.dom = tr;
 
@@ -161,7 +162,8 @@ TinyJira.Issue.prototype.toDOM2 = function(parentNode) {
     trHTML += '<td class="progress"></td>' +
         '</tr>';
     var tr = $(trHTML)
-        .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; });
+        .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; })
+        .delegate('click', '.alltext-descclosed, .alltext-descopen', function(){ $(this).toggleClass('alltext-descclosed').toggleClass('alltext-descopen'); return false; });
 
     this.dom = tr;
 
