@@ -21,21 +21,10 @@ TinyJira.Filter.prototype.toDOM = function(parentNode) {
     var li = $(liHTML);
 
     li.find('a').click(function(e){
-        jQuery.jsonRpc({
-            url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
-            method: TinyJira.jira.soap + '.getIssuesFromFilter',
-            params: [null, thisFilter.json.id],
-            success: function(x){
-                /*
-                $('.b-page-content').append(
-                    $('<p></p>')
-                    .text(JSON.stringify(x))
-                );
-                */
-                (new TinyJira.Issues(x.result)).toDOM($('.b-page-content'));
-            }
-        });
-        return false;
+        e.preventDefault();
+        var issues = new TinyJira.Issues();
+        issues.fromFilter = thisFilter.json.id;
+        issues.toDOM($('.b-page-content'));
     });
 
     if (parentNode) $(parentNode).append(li);
