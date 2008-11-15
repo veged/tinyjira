@@ -23,14 +23,7 @@
                     .delegate('mouseover', 'tr, td', function(){$(this).addClass('hover')})
                     .delegate('mouseout', 'tr, td', function(){$(this).removeClass('hover')});
                 TinyJira.init(function(){
-                    jQuery.jsonRpc({
-                        url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
-                        method: TinyJira.jira.soap + '.getSavedFilters',
-                        params: [null],
-                        success: function(x){
-                            (new TinyJira.Filters(x.result)).toDOM($('.b-page-content'));
-                        }
-                    });
+                    (new TinyJira.Filters()).toDOM($('.b-page-content'));
                 });
             });
         </script>
