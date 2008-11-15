@@ -66,7 +66,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ['td',
                 ['a',
                     {
-                        href: 'TinyJira.server.baseUrl/browse/' + thisIssue.json.key,
+                        href: TinyJira.jira.url + 'browse/' + thisIssue.json.key,
                         style: 'white-space: nowrap;'
                     },
                     thisIssue.json.key
@@ -117,7 +117,7 @@ TinyJira.Issue.prototype.toDOM2 = function(parentNode) {
     var thisIssue = this;
     var trHTML = '<tr>' +
         '<td><a' +
-            ' href="TinyJira.server.baseUrl/browse/' + thisIssue.json.key + '"' +
+            ' href="' + TinyJira.jira.url + 'browse/' + thisIssue.json.key + '"' +
             ' style="white-space: nowrap;">' +
                 thisIssue.json.key +
         '</a></td>';
@@ -177,7 +177,7 @@ TinyJira.Issue.prototype.toDOM1 = function(parentNode) {
     var tr = $(document.createElement('tr'))
         .append(
             $('<td><a' +
-                ' href="TinyJira.server.baseUrl/browse/' + this.json.key + '"' +
+                ' href="' + TinyJira.jira.url + 'browse/' + this.json.key + '"' +
                 ' style="white-space: nowrap;">' +
                     this.json.key +
             '</a></td>')

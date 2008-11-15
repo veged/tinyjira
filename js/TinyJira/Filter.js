@@ -10,7 +10,7 @@ TinyJira.Filter.prototype.toDOM = function(parentNode) {
     var li = $(document.createElement('li'))
         .append(
             $('<a' +
-                ' href="TinyJira.server.baseUrl/secure/IssueNavigator.jspa?requestId=' + thisFilter.json.id + '&mode=hide">' +
+                ' href="' + TinyJira.jira.url + 'secure/IssueNavigator.jspa?requestId=' + thisFilter.json.id + '&mode=hide">' +
                     thisFilter.json.name +
             '</a>')
             .click(function(e){
