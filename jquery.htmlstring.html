@@ -1,0 +1,26 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<title></title>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+		<script type="text/javascript" charset="utf-8" src="js/jquery.htmlstring.js"></script>
+		<script type="text/javascript">
+            $(document).ready(function(){
+                $('body').html(
+                    $.htmlString('div', {style: 'color:red'}, [
+                        ['span', {style: 'color:green'}, 'bla'],
+                        ['span', 'bla'],
+                        [null, '<i>bla</i>'],
+                        ['b', ['tt', {style: 'color:black'}, 'code']],
+                        ['br'],
+                        ['i', [['span', '*'], ['span', '*']]],
+                        ['div', (true ? ['ul', ['li', 'bla']] : '')]
+                    ])
+                );
+            });
+        </script>
+	</head>
+    <body>
+    </body>
+</html>
