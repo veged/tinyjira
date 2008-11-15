@@ -48,6 +48,71 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(fieldValues) {
 };
 
 TinyJira.Issue.prototype.toDOM = function(parentNode) {
+    var thisIssue = this,
+        priorities = ["trivial", "minor", "normal", "critical", "blocker"],
+        statuses = {
+            '10001': "needinfo",
+            '1': "open",
+            '6': "closed",
+            '5': "closed"
+        },
+        actions = {
+            needinfo: "31",
+            open: "91",
+            closed: "11"
+        };
+
+    var trHTML = $.htmlString('tr', [
+            ['td',
+                ['a',
+                    {
+                        href: 'TinyJira.server.baseUrl/browse/' + thisIssue.json.key,
+                        style: 'white-space: nowrap;'
+                    },
+                    thisIssue.json.key
+                ]
+            ],
+            ['td',
+                {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
+                [
+                    ['div', {'class':'summary'}, String(thisIssue.json.summary)],
+                    (thisIssue.json.description ? ['div', {'class':'description'}, String(thisIssue.json.description)] : [])
+                ]
+            ],
+            ['td', {'class': 'priority'},
+                ['div', {'class':'b-priority'},
+                    $.map(priorities, function(p, i){
+                        var set = 5 - i == thisIssue.json.priority ? ' pr-' + p + '-set' : '';
+                        return [['div', {'class': 'pr' + (' pr-' + p) + set},
+                            ['a', {'class': 'a-pr', href: 'javascript:', onclick: 'return ' + (5 - i)}, '<i></i>']
+                        ]]
+                    })
+                ]
+            ],
+            ['td', {'class': 'status'},
+                ['div', {'class':'b-status'},
+                    $.map(["needinfo", "open", "closed"], function(s, i){
+                        var set = statuses[thisIssue.json.status] == s ? ' st-' + s + '-set' : '';
+                        return [['div', {'class': 'st' + (' st-' + s) + set},
+                            ['a', {'class': 'a-st', href: 'javascript:', onclick: 'return ' + actions[s]}, '<i></i>']
+                        ]]
+                    })
+                ]
+            ],
+            ['td', {'class': 'progress'}]
+    ]);
+
+    var tr = $(trHTML)
+        .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; });
+
+    this.dom = tr;
+
+    if (parentNode) $(parentNode).append(tr);
+
+    return tr;
+};
+
+TinyJira.Issue.prototype.toDOM2 = function(parentNode) {
     var thisIssue = this;
     var trHTML = '<tr>' +
         '<td><a' +
