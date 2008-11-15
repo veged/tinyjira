@@ -74,6 +74,26 @@ h1, h2, h3 {
 
 /* @end */
 
+/* @group b-pseudo-link */
+    .b-pseudo-link
+    {
+        position: relative;
+        top: -0.14em;
+
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+
+        border-bottom: 1px dotted;
+    }
+
+    .b-pseudo-link span
+    {
+        position: relative;
+        top: 0.14em;
+    }
+/* @end */
+
 /* @group b-head */
 .b-head {
     width: 100%;
