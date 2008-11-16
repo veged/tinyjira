@@ -104,13 +104,7 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
     jQuery.jsonRpc(jsonRpcOptions);
 };
 
-TinyJira.Issue.prototype.reinit = function(json) {
-    this.json = json || this.json;
-    var oldDOM = this.dom;
-    var newDOM = this.toDOM();
-    oldDOM.hide().after(newDOM);
-    setTimeout(function(){oldDOM.remove()}, 1);
-};
+TinyJira.Issue.prototype.reinit = TinyJira.reinit;
 
 TinyJira.Issue.prototype.update = function(fieldValues) {
     var thisIssue = this;

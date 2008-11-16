@@ -5,6 +5,9 @@ TinyJira.Issues = function(json) {
     this.json = json;
     this.fromFilter = '';
 };
+
+TinyJira.Issues.prototype.reinit = TinyJira.reinit;
+
 TinyJira.Issues.prototype.toDOM = function(parentNode) {
     var thisIssues = this,
         html = $.htmlString('div', [
@@ -46,10 +49,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
         dom.find('.b-sup-controls .refresh').click(function(e){
             e.preventDefault();
             delete thisIssues.json;
-            var oldDOM = thisIssues.dom;
-            var newDOM = thisIssues.toDOM();
-            oldDOM.hide().after(newDOM);
-            setTimeout(function(){oldDOM.remove()}, 1);
+            thisIssues.reinit();
         });
 
         dom.find('.b-sup-controls .hide').click(function(e){
@@ -65,11 +65,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
             method: TinyJira.jira.soap + '.getIssuesFromFilter',
             params: [null, thisIssues.fromFilter],
             success: function(x){
-                var oldDOM = thisIssues.dom;
-                thisIssues.json = x.result;
-                var newDOM = thisIssues.toDOM();
-                oldDOM.hide().after(newDOM);
-                setTimeout(function(){oldDOM.remove()}, 1);
+                thisIssues.reinit(x.result);
             }
         });
     }

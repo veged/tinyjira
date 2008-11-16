@@ -5,6 +5,8 @@ TinyJira.Filters = function(json) {
     this.json = json;
 };
 
+TinyJira.Filters.prototype.reinit = TinyJira.reinit;
+
 TinyJira.Filters.prototype.toDOM = function(parentNode) {
     var thisFilters = this,
         html = $.htmlString('div', [
@@ -28,11 +30,7 @@ TinyJira.Filters.prototype.toDOM = function(parentNode) {
             method: TinyJira.jira.soap + '.getSavedFilters',
             params: [null],
             success: function(x){
-                var oldDOM = thisFilters.dom;
-                thisFilters.json = x.result;
-                var newDOM = thisFilters.toDOM();
-                oldDOM.hide().after(newDOM);
-                setTimeout(function(){oldDOM.remove()}, 1);
+                thisFilters.reinit(x.result);
             }
         });
     }
