@@ -10,17 +10,18 @@ var TinyJira = {
             params: ['jirasoapservice-v2-yandex'],
             success: function(x){
                 thisTinyJira.jira.soap = '.obj[' + x.result.objectID + ']';
-                callback.call(thisTinyJira);
-            }
-        });
-        jQuery.jsonRpc({
-            url: this.jira.url + '/plugins/servlet/rpc/json',
-            method:'jira.getCurrentUser',
-            params:[null],
-            success:function(x){
-                if (!x.result) {
-                    alert('Вы не авторизованы.');
-                }
+                jQuery.jsonRpc({
+                    url: thisTinyJira.jira.url + '/plugins/servlet/rpc/json',
+                    method: 'jira.getCurrentUser',
+                    params: [null],
+                    success: function(x){
+                        if (!x.result) {
+                            (new thisTinyJira.Login()).toDOM($('.b-page-content'));
+                        } else {
+                            callback.call(thisTinyJira);
+                        }
+                    }
+                });
             }
         });
     }
