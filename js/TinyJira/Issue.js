@@ -5,6 +5,31 @@ TinyJira.Issue = function(json) {
     this.json = json;
 };
 
+TinyJira.issueStatuses = {
+    '10001': 'needinfo',
+    '1': 'open',
+    '6': 'closed',
+    '5': 'closed'
+};
+
+TinyJira.issueActions = {
+    needinfo: {
+        '31': '31',
+        '91': '91',
+        '21': '21'
+    },
+    open: {
+        '41': '41',
+        '91': '91',
+        '21': '21'
+    },
+    closed: {
+        '121': '121',
+        '81': '81',
+        '11': '11'
+    }
+};
+
 TinyJira.Issue.prototype.setPriority = function(priority) {
     var thisIssue = this;
     thisIssue.startProgress();
@@ -16,13 +41,75 @@ TinyJira.Issue.prototype.setPriority = function(priority) {
         }}, true],
         complete: function(){ thisIssue.stopProgress() },
         success: function(x){
-            var oldDOM = thisIssue.dom;
-            thisIssue.json = x.result.issue;
-            var newDOM = thisIssue.toDOM();
-            oldDOM.hide().after(newDOM);
-            setTimeout(function(){oldDOM.remove()}, 1);
+            thisIssue.reinit(x.result.issue);
         }
     });
+};
+
+TinyJira.Issue.prototype.setStatus = function(status) {
+    var thisIssue = this,
+        actions = TinyJira.issueActions[status]; // список действий, которые приближают к статусу (возможно нужно более одного)
+    thisIssue.startProgress();
+
+    jQuery.jsonRpc({
+        url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+        method: TinyJira.jira.soap + '.getAvailableActions',
+        params: [null, thisIssue.json.key],
+        success: function(x){
+            var action;
+            $.each(x.result, function(){
+                action = actions[this.id];
+                if (action) return false;
+            });
+
+            if (!action) {
+                // останавливаемся, поскольку неизвестно с помощью какого действия можно приблизиться к статусу
+                thisIssue.stopProgress();
+                return false
+            };
+
+            thisIssue.progressWorkflowAction(action, function(x){
+                thisIssue.json = x.result;
+                // если достигли нужного статуса, останавливаемся, иначе всё заново
+                if (TinyJira.issueStatuses[thisIssue.json.status] == status) {
+                    thisIssue.reinit();
+                } else {
+                    thisIssue.setStatus(status);
+                }
+            });
+        }
+    });
+};
+
+TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
+    var thisIssue = this,
+        jsonRpcOptions = {
+            url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+            method: TinyJira.jira.soap + '.progressWorkflowAction',
+            params: [null, thisIssue.json.key, String(action), []],
+            success: function(x){
+                if (callback) {
+                    callback.apply(this, arguments);
+                } else {
+                    thisIssue.reinit(x.result);
+                }
+            }
+        };
+
+    if (!callback) {
+        thisIssue.startProgress();
+        jsonRpcOptions.complete = function(){ thisIssue.stopProgress() };
+    }
+
+    jQuery.jsonRpc(jsonRpcOptions);
+};
+
+TinyJira.Issue.prototype.reinit = function(json) {
+    this.json = json || this.json;
+    var oldDOM = this.dom;
+    var newDOM = this.toDOM();
+    oldDOM.hide().after(newDOM);
+    setTimeout(function(){oldDOM.remove()}, 1);
 };
 
 TinyJira.Issue.prototype.update = function(fieldValues) {
@@ -44,23 +131,9 @@ TinyJira.Issue.prototype.update = function(fieldValues) {
     */
 };
 
-TinyJira.Issue.prototype.progressWorkflowAction = function(fieldValues) {
-};
-
 TinyJira.Issue.prototype.toDOM = function(parentNode) {
     var thisIssue = this,
-        priorities = ["trivial", "minor", "normal", "critical", "blocker"],
-        statuses = {
-            '10001': "needinfo",
-            '1': "open",
-            '6': "closed",
-            '5': "closed"
-        },
-        actions = {
-            needinfo: "31",
-            open: "91",
-            closed: "11"
-        };
+        priorities = ['trivial', 'minor', 'normal', 'critical', 'blocker'];
 
     var trHTML = $.htmlString('tr', [
             ['td',
@@ -91,10 +164,10 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ],
             ['td', {'class': 'status'},
                 ['div', {'class':'b-status'},
-                    $.map(["needinfo", "open", "closed"], function(s, i){
-                        var set = statuses[thisIssue.json.status] == s ? ' st-' + s + '-set' : '';
+                    $.map(['needinfo', 'open', 'closed'], function(s, i){
+                        var set = TinyJira.issueStatuses[thisIssue.json.status] == s ? ' st-' + s + '-set' : '';
                         return [['div', {'class': 'st' + (' st-' + s) + set},
-                            ['a', {'class': 'a-st', href: 'javascript:', onclick: 'return ' + actions[s]}, '<i></i>']
+                            ['a', {'class': 'a-st', href: 'javascript:', onclick: 'return \'' + s + '\''}, '<i></i>']
                         ]]
                     })
                 ]
@@ -104,6 +177,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
 
     var tr = $(trHTML)
         .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; })
+        .delegate('click', '.a-st', function(){ thisIssue.setStatus(this.onclick()); return false; })
         .delegate('click', '.alltext-descclosed, .alltext-descopen', function(){ $(this).toggleClass('alltext-descclosed').toggleClass('alltext-descopen'); return false; });
 
     this.dom = tr;
