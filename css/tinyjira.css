@@ -46,6 +46,7 @@ code, input, textarea {
 }
 
 a {
+    color: #00e !important;
     text-decoration: underline;
 }
 
@@ -91,6 +92,23 @@ h1, h2, h3 {
     {
         position: relative;
         top: 0.14em;
+    }
+/* @end */
+
+/* @group .b-sup-controls */
+    .b-sup-controls
+    {
+        font-size: 55.5%;
+    }
+
+    h2 .b-sup-controls sup
+    {
+        display: none;
+    }
+
+    h2.hover .b-sup-controls sup
+    {
+        display: inline;
     }
 /* @end */
 

@@ -21,8 +21,8 @@
 		<script type="text/javascript">
             $(document).ready(function(){
                 $('.b-page-content')
-                    .delegate('mouseover', 'tr, td', function(){$(this).addClass('hover')})
-                    .delegate('mouseout', 'tr, td', function(){$(this).removeClass('hover')});
+                    .delegate('mouseover', 'tr, td, h2', function(){$(this).addClass('hover')})
+                    .delegate('mouseout', 'tr, td, h2', function(){$(this).removeClass('hover')});
                 TinyJira.init(function(){
                     (new TinyJira.Filters()).toDOM($('.b-page-content'));
                 });
