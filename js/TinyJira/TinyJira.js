@@ -16,7 +16,7 @@ var TinyJira = {
                     params: [null],
                     success: function(x){
                         if (!x.result) {
-                            (new thisTinyJira.Login()).toDOM($('.b-page-content'));
+                            (new thisTinyJira.Login()).toDOM($('.h-page-c'));
                         } else {
                             callback.call(thisTinyJira);
                         }

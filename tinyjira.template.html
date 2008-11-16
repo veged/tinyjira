@@ -21,7 +21,7 @@
 		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Filters.js"></script>
 		<script type="text/javascript">
             $(document).ready(function(){
-                $('.b-page-content')
+                $('.h-page-l, .h-page-c')
                     .delegate('mouseover', 'tr, td', function(){$(this).addClass('hover')})
                     .delegate('mouseout', 'tr, td', function(){$(this).removeClass('hover')});
                 (new TinyJira.Issue(
@@ -80,147 +80,190 @@
                 <td></td>
             </tr>
         </table>
-        <div class="b-page">
-        <div class="b-page-content">
 
-            <h2>Текущие задачи</h2>
-            <div class="b-issues-table TinyJira-c-IssuesTable">
-                <table>
-                    <tr>
-                        <th>Ключ</th>
-                        <th width="100%">Описание</th>
-                        <th>Приоритет</th>
-                        <th>Статус</th>
-                        <th class="progress"><div></div></th>
-                    </tr>
-                    <tr>
-                        <td class="key">
-                            <a href="#" style="white-space: nowrap;">JRA-14686</a>
-                        </td>
-                        <td class="alltext">Manual Backup Data to XML fails without warning when filename contains a colon character under WinXP.</td>
-                        <td class="priority">
-                            <div class="b-priority">
-                                <div class="pr pr-trivial"><a href="#"><i></i></a></div>
-                                <div class="pr pr-minor"><a href="#"><i></i></a></div>
-                                <div class="pr pr-normal"><a href="#"><i></i></a></div>
-                                <div class="pr pr-critical pr-critical-set"><a href="#"><i></i></a></div>
-                                <div class="pr pr-blocker"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td class="status">
-                            <div class="b-status">
-                                <div class="st st-needinfo"><a href="#"><i></i></a></div>
-                                <div class="st st-open st-open-set"><a href="#"><i></i></a></div>
-                                <div class="st st-closed"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="with-inline-form">
-                        <td>
-                            <a href="#" style="white-space: nowrap;">JRA-1358</a>
-                        </td>
-                        <td>Issue "Remaining Estimate" does not deduct "Sub-Task" original estimate for Sub-Tasks which are resolved.</td>
-                        <td>
-                            <div class="b-priority">
-                                <div class="pr pr-trivial pr-trivial-set"><a href="#"><i></i></a></div>
-                                <div class="pr pr-minor"><a href="#"><i></i></a></div>
-                                <div class="pr pr-normal"><a href="#"><i></i></a></div>
-                                <div class="pr pr-critical"><a href="#"><i></i></a></div>
-                                <div class="pr pr-blocker"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="b-status">
-                                <div class="st st-needinfo"><a href="#"><i></i></a></div>
-                                <div class="st st-open"><a href="#"><i></i></a></div>
-                                <div class="st st-closed st-closed-set"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="inline-form-decoration">
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td class="with-inline-form"></td>
-                    </tr>
-                    <tr class="inline-form">
-                        <td colspan="4">
-                            <textarea style="width: 100%; height 20px;"></textarea><br/><br/>
-                            <input type="button" value="Изменить"/> или <a href="#">Отменить</a>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#" style="white-space: nowrap;">JRA-14686</a>
-                        </td>
-                        <td>Manual Backup Data to XML fails without warning when filename contains a colon character under WinXP.</td>
-                        <td>
-                            <div class="b-priority">
-                                <div class="pr pr-trivial"><a href="#"><i></i></a></div>
-                                <div class="pr pr-minor"><a href="#"><i></i></a></div>
-                                <div class="pr pr-normal"><a href="#"><i></i></a></div>
-                                <div class="pr pr-critical"><a href="#"><i></i></a></div>
-                                <div class="pr pr-blocker pr-blocker-set"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="b-status">
-                                <div class="st st-needinfo"><a href="#"><i></i></a></div>
-                                <div class="st st-open st-open-set"><a href="#"><i></i></a></div>
-                                <div class="st st-closed"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td class="progress"><span class="b-progress"><img src="i/progress_80.gif" width="80" height="16" alt="..." /></span></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#" style="white-space: nowrap;">JRA-2358</a>
-                        </td>
-                        <td>Issue "Sub-Task" original estimate for Sub-Tasks which are resolved.</td>
-                        <td>
-                            <div class="b-priority">
-                                <div class="pr pr-trivial"><a href="#"><i></i></a></div>
-                                <div class="pr pr-minor"><a href="#"><i></i></a></div>
-                                <div class="pr pr-normal pr-normal-set"><a href="#"><i></i></a></div>
-                                <div class="pr pr-critical"><a href="#"><i></i></a></div>
-                                <div class="pr pr-blocker"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="b-status">
-                                <div class="st st-needinfo st-needinfo-set"><a href="#"><i></i></a></div>
-                                <div class="st st-open"><a href="#"><i></i></a></div>
-                                <div class="st st-closed"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td class="progress" style="border-bottom: 1px solid #f00;"></td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <a href="#" style="white-space: nowrap;">JRA-1358</a>
-                        </td>
-                        <td>Issue "Remaining Estimate" does not deduct "Sub-Task" original estimate for Sub-Tasks which are resolved.</td>
-                        <td>
-                            <div class="b-priority">
-                                <div class="pr pr-trivial"><a href="#"><i></i></a></div>
-                                <div class="pr pr-minor"><a href="#"><i></i></a></div>
-                                <div class="pr pr-normal pr-normal-set"><a href="#"><i></i></a></div>
-                                <div class="pr pr-critical"><a href="#"><i></i></a></div>
-                                <div class="pr pr-blocker"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td>
-                            <div class="b-status">
-                                <div class="st st-needinfo st-needinfo-set"><a href="#"><i></i></a></div>
-                                <div class="st st-open"><a href="#"><i></i></a></div>
-                                <div class="st st-closed"><a href="#"><i></i></a></div>
-                            </div>
-                        </td>
-                        <td class="progress"></td>
-                    </tr>
-                </table>
-            <div>
-        </div>
-        </div>
+        <table class="l-page">
+            <tr>
+                <td class="l-page-g"><i></i></td>
+                <td class="l-page-l">
+                <div class="h-page-l">
+                    <div>
+                        <h2 class="">Фильтры</h2>
+                        <div class="b-filters TinyJira-c-Filters">
+                            <ul>
+                                <li>
+                                    <a class="b-pseudo-link" href="#">
+                                        <span>ask</span>
+                                    </a>
+                                </li>
+                                <li><a class="b-pseudo-link" href="#"><span>blogs</span></a>: Мои запросы по проекту Яндекс.Блоги</li>
+                                <li><a class="b-pseudo-link" href="#"><span>friends-iteration</span></a>: Текущая итерация</li>
+                                <li><a class="b-pseudo-link" href="#"><span>friends-recent</span></a>: Где я участвую и недавно была активность</li>
+                                <li><a class="b-pseudo-link" href="#"><span>friends-resolved</span></a>: Задачи, над которыми поработали, но ещё не проверили</li>
+                                <li><a class="b-pseudo-link" href="#"><span>lentа</span></a>: Мои запросы по проекту Яндекс.Лента</li>
+                                <li><a class="b-pseudo-link" href="#"><span>money</span></a>: Мои запросы по проекту Яндекс.Деньги</li>
+                                <li>
+                                    <a class="b-pseudo-link" href="#">
+                                        <span>My</span>
+                                    </a>
+                                </li>
+                                <li><a class="b-pseudo-link" href="#"><span>my-recent</span></a>: Недавно менявшиеся</li>
+                                <li><a class="b-pseudo-link" href="#"><span>ppb-now</span></a>: То что надо сделать на этой итерации.</li>
+                                <li>
+                                    <a class="b-pseudo-link" href="#">
+                                        <span>test</span>
+                                    </a>
+                                </li>
+                                <li><a class="b-pseudo-link" href="#"><span>Недавно закрытые мной</span></a>: Недавно закрытые мной</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                </td>
+                <td class="l-page-c">
+                <div class="h-page-c">
+                    <div>
+                        <h2>Текущие задачи</h2>
+                        <div class="b-issues-table TinyJira-c-IssuesTable">
+                            <table>
+                                <tr>
+                                    <th>Ключ</th>
+                                    <th width="100%">Описание</th>
+                                    <th>Приоритет</th>
+                                    <th>Статус</th>
+                                    <th class="progress"><div></div></th>
+                                </tr>
+                                <tr>
+                                    <td class="key">
+                                        <a href="#" style="white-space: nowrap;">JRA-14686</a>
+                                    </td>
+                                    <td class="alltext">Manual Backup Data to XML fails without warning when filename contains a colon character under WinXP.</td>
+                                    <td class="priority">
+                                        <div class="b-priority">
+                                            <div class="pr pr-trivial"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-minor"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-normal"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-critical pr-critical-set"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-blocker"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td class="status">
+                                        <div class="b-status">
+                                            <div class="st st-needinfo"><a href="#"><i></i></a></div>
+                                            <div class="st st-open st-open-set"><a href="#"><i></i></a></div>
+                                            <div class="st st-closed"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="with-inline-form">
+                                    <td>
+                                        <a href="#" style="white-space: nowrap;">JRA-1358</a>
+                                    </td>
+                                    <td>Issue "Remaining Estimate" does not deduct "Sub-Task" original estimate for Sub-Tasks which are resolved.</td>
+                                    <td>
+                                        <div class="b-priority">
+                                            <div class="pr pr-trivial pr-trivial-set"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-minor"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-normal"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-critical"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-blocker"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="b-status">
+                                            <div class="st st-needinfo"><a href="#"><i></i></a></div>
+                                            <div class="st st-open"><a href="#"><i></i></a></div>
+                                            <div class="st st-closed st-closed-set"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                                <tr class="inline-form-decoration">
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td class="with-inline-form"></td>
+                                </tr>
+                                <tr class="inline-form">
+                                    <td colspan="4">
+                                        <textarea style="width: 100%; height 20px;"></textarea><br/><br/>
+                                        <input type="button" value="Изменить"/> или <a href="#">Отменить</a>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#" style="white-space: nowrap;">JRA-14686</a>
+                                    </td>
+                                    <td>Manual Backup Data to XML fails without warning when filename contains a colon character under WinXP.</td>
+                                    <td>
+                                        <div class="b-priority">
+                                            <div class="pr pr-trivial"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-minor"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-normal"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-critical"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-blocker pr-blocker-set"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="b-status">
+                                            <div class="st st-needinfo"><a href="#"><i></i></a></div>
+                                            <div class="st st-open st-open-set"><a href="#"><i></i></a></div>
+                                            <div class="st st-closed"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td class="progress"><span class="b-progress"><img src="i/progress_80.gif" width="80" height="16" alt="..." /></span></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#" style="white-space: nowrap;">JRA-2358</a>
+                                    </td>
+                                    <td>Issue "Sub-Task" original estimate for Sub-Tasks which are resolved.</td>
+                                    <td>
+                                        <div class="b-priority">
+                                            <div class="pr pr-trivial"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-minor"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-normal pr-normal-set"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-critical"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-blocker"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="b-status">
+                                            <div class="st st-needinfo st-needinfo-set"><a href="#"><i></i></a></div>
+                                            <div class="st st-open"><a href="#"><i></i></a></div>
+                                            <div class="st st-closed"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td class="progress" style="border-bottom: 1px solid #f00;"></td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <a href="#" style="white-space: nowrap;">JRA-1358</a>
+                                    </td>
+                                    <td>Issue "Remaining Estimate" does not deduct "Sub-Task" original estimate for Sub-Tasks which are resolved.</td>
+                                    <td>
+                                        <div class="b-priority">
+                                            <div class="pr pr-trivial"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-minor"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-normal pr-normal-set"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-critical"><a href="#"><i></i></a></div>
+                                            <div class="pr pr-blocker"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="b-status">
+                                            <div class="st st-needinfo st-needinfo-set"><a href="#"><i></i></a></div>
+                                            <div class="st st-open"><a href="#"><i></i></a></div>
+                                            <div class="st st-closed"><a href="#"><i></i></a></div>
+                                        </div>
+                                    </td>
+                                    <td class="progress"></td>
+                                </tr>
+                            </table>
+                        <div>
+                    </div>
+                </div>
+                </td>
+                <td class="l-page-g"><i></i></td>
+            </tr>
+        </table>
     </body>
 </html>

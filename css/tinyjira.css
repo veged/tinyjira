@@ -171,17 +171,36 @@ h1, h2, h3 {
 
 /* @end */
 
-/* @group b-page */
-.b-page {
-    margin: 1em 2% 1em 18%;
-}
-.b-page-content {
-	width: 100%;
+/* @group l-page */
+.l-page
+{
+    width: 100%;
 }
 
-.b-page h2 {
+.l-page-g
+{
+    width: 2%;
+}
+
+.l-page-g i
+{
+    display: block;
+    width: 10px;
+}
+
+.l-page-l {
+    width: 16%;
+}
+
+.h-page-l
+{
+    margin-right: 2em;
+}
+
+.l-page h2 {
     margin: 1em 0 0.4em 0;
 }
+
 /* @end */
 
 /* @group b-progress */
@@ -223,7 +242,12 @@ h1, h2, h3 {
 }
 /* @end */
 
-
+/* @group b-filters */
+.b-filters li
+{
+    padding-bottom: 0.3em;
+}
+/* @end */
 
 /* @group b-issues-table */
 .b-issues-table table {

@@ -21,11 +21,11 @@
 		<script type="text/javascript" charset="utf-8" src="js/TinyJira/Filters.js"></script>
 		<script type="text/javascript">
             $(document).ready(function(){
-                $('.b-page-content')
+                $('.h-page-l, .h-page-c')
                     .delegate('mouseover', 'tr, td, h2', function(){$(this).addClass('hover')})
                     .delegate('mouseout', 'tr, td, h2', function(){$(this).removeClass('hover')});
                 TinyJira.init(function(){
-                    (new TinyJira.Filters()).toDOM($('.b-page-content'));
+                    (new TinyJira.Filters()).toDOM($('.h-page-l'));
                 });
             });
         </script>
@@ -51,6 +51,24 @@
                 <td></td>
             </tr>
         </table>
+        <table class="l-page">
+            <tr>
+                <td class="l-page-g"><i></i></td>
+
+                <td class="l-page-l">
+                <div class="h-page-l">
+                </div>
+                </td>
+
+                <td class="l-page-c">
+                <div class="h-page-c">
+                </div>
+                </td>
+
+                <td class="l-page-g"><i></i></td>
+            </tr>
+        </table>
+
         <div class="b-page">
         <div class="b-page-content">
         </div>
