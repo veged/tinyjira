@@ -23,7 +23,7 @@ TinyJira.Filter.prototype.toDOM = function(parentNode) {
     li.find('a').click(function(e){
         e.preventDefault();
         var issues = new TinyJira.Issues();
-        issues.fromFilter = thisFilter.json.id;
+        issues.fromFilter = thisFilter.json;
         issues.toDOM($('.b-page-content'));
     });
 

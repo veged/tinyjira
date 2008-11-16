@@ -12,7 +12,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
     var thisIssues = this,
         html = $.htmlString('div', [
             ['h2', [
-                [null, 'Задачи'],
+                [null, 'Задачи' + (thisIssues.fromFilter ? ': ' + thisIssues.fromFilter.name : '')],
                 (thisIssues.json ?
                     ['span', {'class':'b-sup-controls'}, [
                         [null, ' &nbsp;'],
@@ -20,6 +20,10 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
                         [null, ' &nbsp;'],
                         ['sup', ['a', {'class':'b-pseudo-link hide'}, ['span', 'скрыть']]]
                     ]] :
+                    []
+                ),
+                ((thisIssues.fromFilter.description && thisIssues.fromFilter.description !== '') ?
+                    ['span', {'class':'subheader'}, thisIssues.fromFilter.description] :
                     []
                 )
             ]],
@@ -63,7 +67,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
         jQuery.jsonRpc({
             url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
             method: TinyJira.jira.soap + '.getIssuesFromFilter',
-            params: [null, thisIssues.fromFilter],
+            params: [null, thisIssues.fromFilter.id],
             success: function(x){
                 thisIssues.reinit(x.result);
             }

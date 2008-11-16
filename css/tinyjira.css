@@ -95,6 +95,14 @@ h1, h2, h3 {
     }
 /* @end */
 
+/* @group subheader */
+    h2 .subheader
+    {
+        font-size: 55.5%;
+        display: block;
+    }
+/* @end */
+
 /* @group .b-sup-controls */
     .b-sup-controls
     {
