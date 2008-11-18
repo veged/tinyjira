@@ -11,7 +11,7 @@ TinyJira.Issues.prototype.reinit = TinyJira.reinit;
 TinyJira.Issues.prototype.toDOM = function(parentNode) {
     var thisIssues = this,
         html = $.htmlString('div', [
-            ['h2', {style:'font-size: 100%;'}, [
+            ['h2', {style:'font-size: 100%; margin: 1.8em 0 0.72em 0;'}, [
                 ['span', {'class':'h2'}, 'Задачи' + (thisIssues.fromFilter ? ': ' + thisIssues.fromFilter.name : '')],
                 (thisIssues.json ?
                     ['span', {'class':'b-sup-controls'}, [

@@ -24,7 +24,7 @@ TinyJira.Filter.prototype.toDOM = function(parentNode) {
         e.preventDefault();
         var issues = new TinyJira.Issues();
         issues.fromFilter = thisFilter.json;
-        issues.toDOM($('.h-page-c'));
+        $('.h-page-c').prepend(issues.toDOM());
     });
 
     if (parentNode) $(parentNode).append(li);
