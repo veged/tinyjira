@@ -148,10 +148,11 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ['td',
                 ['a',
                     {
+                        'class': 'a-key b-pseudo-link',
                         href: TinyJira.jira.url + 'browse/' + thisIssue.json.key,
                         style: 'white-space: nowrap;'
                     },
-                    thisIssue.json.key
+                    ['span', thisIssue.json.key]
                 ]
             ],
             ['td',
@@ -185,9 +186,12 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
     ]);
 
     var tr = $(trHTML)
+        .delegate('click', '.a-key', function(e){ e.preventDefault(); thisIssue.toggleForm(1); return false; })
         .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; })
         .delegate('click', '.a-st', function(){ thisIssue.setStatus(this.onclick()); return false; })
         .delegate('click', '.alltext-descclosed, .alltext-descopen', function(){ $(this).toggleClass('alltext-descclosed').toggleClass('alltext-descopen'); return false; });
+
+    $().bind('TinyJira:issueShowForm', function(e, issue){ if (thisIssue != issue) thisIssue.hideForm() });
 
     this.dom = tr;
 
@@ -355,59 +359,63 @@ TinyJira.Issue.prototype.toDOM1 = function(parentNode) {
 };
 
 TinyJira.Issue.prototype.createForm = function(target) {
-    if (!this.dom) {
-        return;
-    }
-    if (this.form) {
-        return this.form;
-    }
-    var decorationTr = $('<tr class="inline-form-decoration"></tr>');
-
-    $([1, 2, 3, 4]).each(function(i){
-        decorationTr.append($('<td class="' + (i == target ? "with-inline-form" : "") + '"></td>'));
-    });
-
-    var formTr = $('<tr class="inline-form"></tr>')
-        .append(
-            $('<td colspan="4"></td>')
-            .append(
-                $('<form action="" class="g-hidden">' +
-                    '<textarea style="width: 100%; height 20px;"></textarea>' +
-                    '<br/><br/><input type="button" value="\u0418\u0437\u043C\u0435\u043D\u0438\u0442\u044C"/> \u0438\u043B\u0438&nbsp;'
-                + '</form>')
-                .append(
-                    $('<a href="javascript:">\u041E\u0442\u043C\u0435\u043D\u0430</a>')
-                    .click(function(){ thisIssue.hideForm() })
-                )
-            )
-        );
-
+    if (!this.dom) return;
+    if (this.form) return this.form;
     
-    this.dom.addClass('with-inline-form')
+    var thisIssue = this;
+
+    var decorationHTML = $.htmlString('tr', {'class': 'inline-form-decoration'}, $.map([1, 2, 3, 4], function(i){
+        return [['td', {'class': (i == target ? 'with-inline-form' : '')}]];
+    }));
+
+    var formHTML = $.htmlString('tr', {'class': 'inline-form'},
+        ['td', {colspan: '4'}, [
+            ['form', {action: '', 'class': ''}, [
+                ['textarea', {style: 'width: 100%; height: 100px;'}],
+                ['br'], ['br'],
+                ['input', {type: 'button', 'class': 'submit', value: 'Изменить'}],
+                [null, ' или&nbsp;'],
+                ['a', {'class': 'cancel b-pseudo-link', href: 'javascript:'}, ['span', 'Отменить']]
+            ]],
+        ]]
+    );
+    
+    var formTr = $(formHTML),
+        decorationTr = $(decorationHTML);
+
+    thisIssue.dom.addClass('with-inline-form')
         .after(formTr)
         .after(decorationTr);
 
-    this.form = {
+    var tr = $(formTr)
+        .delegate('click', '.cancel', function(e){ e.preventDefault(); thisIssue.hideForm(target); return false; });
+
+    thisIssue.form = {
         decorationTr: decorationTr,
         formTr: formTr,
     };
-    return form;
+
+    $().trigger('TinyJira:issueShowForm', [thisIssue]);
+
+    return thisIssue.form;
 };
 
-TinyJira.Issue.prototype.showForm = function(target) {
-    if (!this.dom) {
-        return;
+TinyJira.Issue.prototype.toggleForm = function(target) {
+    if (!this.dom) return;
+    if (this.form) {
+        this.hideForm();
+    } else {
+        this.createForm(target);
     }
-    this.createForm(target);
 };
 
-TinyJira.Issue.prototype.hideForm = function(target) {
-    if (!this.dom) {
-        return;
-    }
-    if (!this.form) {
-        return;
-    }
+TinyJira.Issue.prototype.hideForm = function() {
+    if (!this.dom || !this.form) return;
+    $.each(this.form, function(){
+        this.hide();
+        setTimeout(function(){this.remove()}, 1);
+    });
+
     delete this.form;
 };
 
