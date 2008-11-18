@@ -66,9 +66,10 @@ i {
     font-style: normal;
 }
 
-h1, h2, h3 {
+h1, h2, .h2, h3 {
     font-size: 180%;
 }
+
 .g-hidden {
     display: none !important;
 }
@@ -98,7 +99,7 @@ h1, h2, h3 {
 /* @group subheader */
     h2 .subheader
     {
-        font-size: 55.5%;
+        /*font-size: 55.5%;*/
         display: block;
     }
 /* @end */
@@ -106,18 +107,26 @@ h1, h2, h3 {
 /* @group .b-sup-controls */
     .b-sup-controls
     {
-        font-size: 55.5%;
+        /*font-size: 55.5%;*/
     }
 
-    h2 .b-sup-controls sup
+    h2 .b-sup-controls sup a
     {
-        display: none;
+        /*display: none;*/
+        color: #aaa !important;
     }
 
-    h2.hover .b-sup-controls sup
+    h2.hover .b-sup-controls sup a
     {
-        display: inline;
+        /*display: inline;*/
+        color: #00e !important;
     }
+
+    h2.hover .b-sup-controls sup a:hover
+    {
+        color:#FF643B !important;
+    }
+
 /* @end */
 
 /* @group b-head */
