@@ -412,9 +412,11 @@ TinyJira.Issue.prototype.toggleForm = function(target) {
 TinyJira.Issue.prototype.hideForm = function() {
     if (!this.dom || !this.form) return;
     $.each(this.form, function(){
-        this.hide();
-        setTimeout(function(){this.remove()}, 1);
+        var f = this;
+        f.hide();
+        setTimeout(function(){f.remove()}, 1);
     });
+    this.dom.removeClass('with-inline-form');
 
     delete this.form;
 };
