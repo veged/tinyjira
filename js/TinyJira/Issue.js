@@ -30,6 +30,22 @@ TinyJira.issueActions = {
     }
 };
 
+TinyJira.issueStatusTitles = {
+    'needinfo': 'Нуждается в дополнении',
+    'open': 'Открыто',
+    'closed': 'Закрыто'
+};
+
+TinyJira.issuePriorities = ['trivial', 'minor', 'normal', 'critical', 'blocker'];
+
+TinyJira.issuePriorityTitles = {
+    'trivial': 'Совсем неважно',
+    'minor': 'Неважно',
+    'normal': 'Нормально',
+    'critical': 'Важно',
+    'blocker': 'Очень важно'
+};
+
 TinyJira.Issue.prototype.setPriority = function(priority) {
     var thisIssue = this;
     thisIssue.startProgress();
@@ -126,8 +142,7 @@ TinyJira.Issue.prototype.update = function(fieldValues) {
 };
 
 TinyJira.Issue.prototype.toDOM = function(parentNode) {
-    var thisIssue = this,
-        priorities = ['trivial', 'minor', 'normal', 'critical', 'blocker'];
+    var thisIssue = this;
 
     var trHTML = $.htmlString('tr', [
             ['td',
@@ -148,10 +163,10 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ],
             ['td', {'class': 'priority'},
                 ['div', {'class':'b-priority'},
-                    $.map(priorities, function(p, i){
+                    $.map(TinyJira.issuePriorities, function(p, i){
                         var set = 5 - i == thisIssue.json.priority ? ' pr-' + p + '-set' : '';
                         return [['div', {'class': 'pr' + (' pr-' + p) + set},
-                            ['a', {'class': 'a-pr', href: 'javascript:', onclick: 'return ' + (5 - i)}, '<i></i>']
+                            ['a', {'class': 'a-pr', title: TinyJira.issuePriorityTitles[p], onclick: 'return ' + (5 - i), href: 'javascript:'}, '<i></i>']
                         ]]
                     })
                 ]
@@ -161,7 +176,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                     $.map(['needinfo', 'open', 'closed'], function(s, i){
                         var set = TinyJira.issueStatuses[thisIssue.json.status] == s ? ' st-' + s + '-set' : '';
                         return [['div', {'class': 'st' + (' st-' + s) + set},
-                            ['a', {'class': 'a-st', href: 'javascript:', onclick: 'return \'' + s + '\''}, '<i></i>']
+                            ['a', {'class': 'a-st', title: TinyJira.issueStatusTitles[s], onclick: 'return \'' + s + '\'', href: 'javascript:'}, '<i></i>']
                         ]]
                     })
                 ]
