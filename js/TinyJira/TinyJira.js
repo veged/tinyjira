@@ -27,8 +27,10 @@ var TinyJira = {
                             } else {
                                 $('.b-head-line h1')
                                     .html($.htmlString([
-                                        [null, 'джиронька и ' + x.result.login + ' &nbsp;'],
-                                        ['a', {'class': 'logout', href: ''}, 'выйти']
+                                        ['span', {'class': 'h1'}, 'джиронька и ' + x.result.login + ' '],
+                                        ['span', {'class': 'b-sup-controls'},
+                                            ['sup', ['a', {'class': 'logout', href: ''}, 'выйти']]
+                                        ]
                                     ]))
                                     .delegate('click', '.logout', function(e){ $.cookie('jira-auth', null) });
                                 callback.call(thisTinyJira);
