@@ -51,7 +51,7 @@ a {
 }
 
 a:hover {
-    color:#FF643B !important;
+    color: #ff643b !important;
 }
 
 a img {
@@ -124,7 +124,7 @@ h1, h2, .h2, h3 {
 
     h2.hover .b-sup-controls sup a:hover
     {
-        color:#FF643B !important;
+        color: #ff643b !important;
     }
 
 /* @end */
@@ -151,6 +151,7 @@ h1, h2, .h2, h3 {
 .b-head .head-line {
     width: 80%;
 }
+/*
 .b-head .service .b-login {
 	height: 1em;
 }
@@ -158,6 +159,7 @@ h1, h2, .h2, h3 {
 .b-head .service .b-user {
     font-weight: bold;
 }
+
 .b-head .login {
     color: #060;
 }
@@ -165,7 +167,7 @@ h1, h2, .h2, h3 {
 .b-head .logout {
     color: #900;
 }
-
+*/
 .b-head-line {
     padding: 0.1em 0 0.3em 0.9em;
     background: #2358a3 url(../i/head-background.gif) repeat scroll 0 50%;
@@ -177,6 +179,17 @@ h1, h2, .h2, h3 {
     padding-right: 3.5em;
     color: #fff;
 }
+
+.b-head-line h1 a.logout
+{
+    color: #999 !important;
+}
+
+.b-head-line h1 a.logout:hover
+{
+    color: #FF643B !important;
+}
+
 
 /* @end */
 

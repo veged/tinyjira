@@ -28,7 +28,7 @@ TinyJira.Filters.prototype.toDOM = function(parentNode) {
         jQuery.jsonRpc({
             url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
             method: TinyJira.jira.soap + '.getSavedFilters',
-            params: [null],
+            params: [TinyJira.jira.auth],
             success: function(x){
                 thisFilters.reinit(x.result);
             }

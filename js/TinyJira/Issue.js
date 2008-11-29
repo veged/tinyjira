@@ -52,7 +52,7 @@ TinyJira.Issue.prototype.setPriority = function(priority) {
     jQuery.jsonRpc({
         url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
         method: 'jira.updateIssue',
-        params: [null, thisIssue.json.key, { javaClass: "java.util.HashMap", map: {
+        params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: {
             priority: [String(priority)]
         }}, true],
         complete: function(){ thisIssue.stopProgress() },
@@ -70,7 +70,7 @@ TinyJira.Issue.prototype.setStatus = function(status) {
     jQuery.jsonRpc({
         url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
         method: TinyJira.jira.soap + '.getAvailableActions',
-        params: [null, thisIssue.json.key],
+        params: [TinyJira.jira.auth, thisIssue.json.key],
         success: function(x){
             var action;
             $.each(x.result, function(){
@@ -102,7 +102,7 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
         jsonRpcOptions = {
             url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
             method: TinyJira.jira.soap + '.progressWorkflowAction',
-            params: [null, thisIssue.json.key, String(action), []],
+            params: [TinyJira.jira.auth, thisIssue.json.key, String(action), []],
             success: function(x){
                 if (callback) {
                     callback.apply(this, arguments);
