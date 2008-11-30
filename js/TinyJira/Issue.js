@@ -63,7 +63,7 @@ TinyJira.Issue.prototype.setPriority = function(priority, comment) {
     });
 };
 
-TinyJira.Issue.prototype.setStatus = function(status) {
+TinyJira.Issue.prototype.setStatus = function(status, comment) {
     var thisIssue = this,
         actions = TinyJira.issueActions[status]; // список действий, которые приближают к статусу (возможно нужно более одного)
     thisIssue.startProgress();
@@ -87,15 +87,44 @@ TinyJira.Issue.prototype.setStatus = function(status) {
 
             thisIssue.progressWorkflowAction(action, function(x){
                 thisIssue.json = x.result;
-                // если достигли нужного статуса, останавливаемся, иначе всё заново
+                // если достигли нужного статуса, останавливаемся и добавляем комментарий, иначе всё заново
                 if (TinyJira.issueStatuses[thisIssue.json.status] == status) {
-                    thisIssue.reinit();
+                    if (comment && comment != '') {
+                        thisIssue.addComment(comment, function(x){ thisIssue.reinit(x.result.issue) });
+                    } else {
+                        thisIssue.reinit();
+                    }
                 } else {
                     thisIssue.setStatus(status);
                 }
             });
         }
     });
+};
+
+TinyJira.Issue.prototype.addComment = function(comment, callback) {
+    var thisIssue = this,
+        jsonRpcOptions = {
+            url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+            method: 'jira.updateIssue',
+            params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: {
+                comment: [comment]
+            }}, true],
+            success: function(x){
+                if (callback) {
+                    callback.apply(this, arguments);
+                } else {
+                    thisIssue.reinit(x.result);
+                }
+            }
+        };
+
+    if (!callback) {
+        thisIssue.startProgress();
+        jsonRpcOptions.complete = function(){ thisIssue.stopProgress() };
+    }
+
+    jQuery.jsonRpc(jsonRpcOptions);
 };
 
 TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
@@ -215,6 +244,12 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             var newPriority = this.onclick(),
                 newPriorityName = TinyJira.issuePriorities[5 - newPriority],
                 newPriorityTitle = TinyJira.issuePriorityTitles[newPriorityName];
+
+            if (oldPriority == newPriority ) {
+                thisIssue.hideForm();
+                return false;
+            }
+
             thisIssue.createForm(3, $.htmlString([
                     ['h3', [
                         [null, 'Изменение приоритета: '],
@@ -229,6 +264,30 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             return false;
         })
         .delegate('longclick', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; })
+        .delegate('click', '.a-st', function(){
+            var oldStatusName = TinyJira.issueStatuses[thisIssue.json.status],
+                oldStatusTitle = TinyJira.issueStatusTitles[oldStatusName];
+            var newStatusName = this.onclick(),
+                newStatusTitle = TinyJira.issueStatusTitles[newStatusName];
+
+            if (oldStatusName == newStatusName ) {
+                thisIssue.hideForm();
+                return false;
+            }
+
+            thisIssue.createForm(4, $.htmlString([
+                    ['h3', [
+                        [null, 'Изменение статуса: '],
+                        ['span', {'class': 'st-' + oldStatusName}, oldStatusTitle.toLowerCase()],
+                        [null, ' &rarr; '],
+                        ['span', {'class': 'st-' + newStatusName}, newStatusTitle.toLowerCase()],
+                    ]],
+                    ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}]
+                ]),
+                function(e){ thisIssue.setStatus(newStatusName, e.target.form.comment.value) }
+            );
+            return false;
+        })
         .delegate('longclick', '.a-st', function(){ thisIssue.setStatus(this.onclick()); return false; })
         .delegate('click', '.alltext-descclosed, .alltext-descopen', function(){ $(this).toggleClass('alltext-descclosed').toggleClass('alltext-descopen'); return false; });
 
@@ -458,6 +517,16 @@ TinyJira.Issue.prototype.hideForm = function() {
     delete this.form;
 };
 
+TinyJira.Issue.prototype.disableForm = function() {
+    if (!this.dom || !this.form) return;
+    this.form.formTr.find('input, select, textarea').attr('disabled', 'disabled');
+};
+
+TinyJira.Issue.prototype.enableForm = function() {
+    if (!this.dom || !this.form) return;
+    this.form.formTr.find('input, select, textarea').removeAttr('disabled');
+};
+
 TinyJira.Issue.prototype.toggleForm = function(target, content, onsubmit) {
     if (!this.dom) return;
     if (this.form) {
@@ -468,9 +537,11 @@ TinyJira.Issue.prototype.toggleForm = function(target, content, onsubmit) {
 };
 
 TinyJira.Issue.prototype.startProgress = function() {
+    this.disableForm();
     this.dom.find('td.progress').html('<span class="b-progress"><i></i></span>');
 };
 
 TinyJira.Issue.prototype.stopProgress = function() {
+    this.enableForm();
     this.dom.find('td.progress').html('');
 };

@@ -547,6 +547,18 @@ tr.hover td.hover .st-closed a:hover i {
     background-position: -64px 0;
 }
 
+.st-needinfo {
+    color: #fff200;
+}
+
+.st-open {
+    color: #f00;
+}
+
+.st-closed {
+    color: #3c0;
+}
+
 /* @end */
 /* @end */
 
