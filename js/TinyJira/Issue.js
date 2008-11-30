@@ -3,6 +3,7 @@
  */
 TinyJira.Issue = function(json) {
     this.json = json;
+    this.inProgress = false;
 };
 
 TinyJira.issueStatuses = {
@@ -47,20 +48,9 @@ TinyJira.issuePriorityTitles = {
 };
 
 TinyJira.Issue.prototype.setPriority = function(priority, comment) {
-    var thisIssue = this;
-    thisIssue.startProgress();
-    jQuery.jsonRpc({
-        url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
-        method: 'jira.updateIssue',
-        params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: {
-            priority: [String(priority)],
-            comment: [comment]
-        }}, true],
-        complete: function(){ thisIssue.stopProgress() },
-        success: function(x){
-            thisIssue.reinit(x.result.issue);
-        }
-    });
+    var params = {priority: String(priority)};
+    if (comment && comment != '') params.comment = comment;
+    this.update(params);
 };
 
 TinyJira.Issue.prototype.setStatus = function(status, comment) {
@@ -69,7 +59,7 @@ TinyJira.Issue.prototype.setStatus = function(status, comment) {
     thisIssue.startProgress();
 
     jQuery.jsonRpc({
-        url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+        url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
         method: TinyJira.jira.soap + '.getAvailableActions',
         params: [TinyJira.jira.auth, thisIssue.json.key],
         success: function(x){
@@ -90,7 +80,7 @@ TinyJira.Issue.prototype.setStatus = function(status, comment) {
                 // если достигли нужного статуса, останавливаемся и добавляем комментарий, иначе всё заново
                 if (TinyJira.issueStatuses[thisIssue.json.status] == status) {
                     if (comment && comment != '') {
-                        thisIssue.addComment(comment, function(x){ thisIssue.reinit(x.result.issue) });
+                        thisIssue.addComment(comment);
                     } else {
                         thisIssue.reinit();
                     }
@@ -103,34 +93,13 @@ TinyJira.Issue.prototype.setStatus = function(status, comment) {
 };
 
 TinyJira.Issue.prototype.addComment = function(comment, callback) {
-    var thisIssue = this,
-        jsonRpcOptions = {
-            url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
-            method: 'jira.updateIssue',
-            params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: {
-                comment: [comment]
-            }}, true],
-            success: function(x){
-                if (callback) {
-                    callback.apply(this, arguments);
-                } else {
-                    thisIssue.reinit(x.result);
-                }
-            }
-        };
-
-    if (!callback) {
-        thisIssue.startProgress();
-        jsonRpcOptions.complete = function(){ thisIssue.stopProgress() };
-    }
-
-    jQuery.jsonRpc(jsonRpcOptions);
+    this.update({comment: comment}, callback);
 };
 
 TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
     var thisIssue = this,
         jsonRpcOptions = {
-            url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+            url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
             method: TinyJira.jira.soap + '.progressWorkflowAction',
             params: [TinyJira.jira.auth, thisIssue.json.key, String(action), []],
             success: function(x){
@@ -150,29 +119,34 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
     jQuery.jsonRpc(jsonRpcOptions);
 };
 
+TinyJira.Issue.prototype.update = function(params, callback) {
+    $.each(params, function(k, v){ params[k] = [v] });
+    var thisIssue = this,
+        jsonRpcOptions = {
+            url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
+            method: 'jira.updateIssue',
+            params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: params }, true],
+            success: function(x){
+                if (callback) {
+                    callback.apply(this, arguments);
+                } else {
+                    if (x.result.issue) thisIssue.reinit(x.result.issue);
+                }
+            }
+        };
+
+    if (!callback) {
+        thisIssue.startProgress();
+        jsonRpcOptions.complete = function(){ thisIssue.stopProgress() };
+    }
+
+    jQuery.jsonRpc(jsonRpcOptions);
+};
+
 TinyJira.Issue.prototype.reinit = function(){
     this.hideForm();
     TinyJira.reinit.apply(this, arguments);
 }
-
-TinyJira.Issue.prototype.update = function(fieldValues) {
-    var thisIssue = this;
-    thisIssue.startProgress();
-    /*
-    TinyJira.jira.xmlrpc.call({
-        method: "jiraYandex.updateIssue",
-        params: [TinyJira.jira.user.auth, this.json.key, fieldValues],
-        onload: function(issue){
-            thisIssue.json = issue;
-            y5.Dom.replaceNode(thisIssue.dom, thisIssue.toDOM());
-        },
-        onerror: function(e){
-            y5.Console.warn("Error on updateIssue. ", e, ["TinyJira"]);
-            y5.Dom.replaceNode(thisIssue.dom, thisIssue.toDOM());
-        }
-    });
-    */
-};
 
 TinyJira.Issue.prototype.toDOM = function(parentNode) {
     var thisIssue = this;
@@ -191,7 +165,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ['td',
                 {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
                 (function(){
-                    var result = $.htmlString('span', {'class': 'summary'}, $.htmlStringText(thisIssue.json.summary));
+                    var result = $.htmlString('a', {'class': 'summary', href: 'javascript:'}, $.htmlStringText(thisIssue.json.summary));
                     if (thisIssue.json.description) {
                         var previewLength = (function(x){
                                 var y = 250, a = 10, b = 20,
@@ -286,6 +260,20 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             return false;
         })
         .delegate('longclick', '.a-st', function(){ thisIssue.setStatus(this.onclick()); return false; })
+        .delegate('click', '.summary', function(){
+            thisIssue.createForm(2, $.htmlString([
+                    ['h3', 'Изменение описания'],
+                    ['input', {name: 'summary', type: 'text', value: thisIssue.json.summary, 'class': 'text', style: 'width: 100%;'}],
+                    ['br'], ['br'],
+                    ['textarea', {name: 'description', style: 'width: 100%; height: 100px;'}, thisIssue.json.description]
+                ]),
+                function(e){ thisIssue.update({
+                    summary: e.target.form.summary.value,
+                    description: e.target.form.description.value
+                })}
+            );
+            return false;
+        })
         .delegate('click', '.description-preview', function(){
             var thisLink = $(this),
                 switchedHTML = thisLink.data('switchedHTML') || $.htmlString('span', 'свернуть');
@@ -544,6 +532,8 @@ TinyJira.Issue.prototype.toggleForm = function(target, content, onsubmit) {
 
 TinyJira.Issue.prototype.startProgress = function() {
     this.disableForm();
+    if (this.inProgress) return;
+    this.inProgress = true;
     this.dom.find('td.progress').html('<span class="b-progress"><i></i></span>');
 };
 

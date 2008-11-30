@@ -65,7 +65,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
 
     } else {
         jQuery.jsonRpc({
-            url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+            url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
             method: TinyJira.jira.soap + '.getIssuesFromFilter',
             params: [TinyJira.jira.auth, thisIssues.fromFilter.id],
             success: function(x){

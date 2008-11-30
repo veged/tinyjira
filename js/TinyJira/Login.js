@@ -28,7 +28,7 @@ TinyJira.Login.prototype.toDOM = function(parentNode) {
             e.preventDefault();
             thisLogin.startProgress();
             jQuery.jsonRpc({
-                url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+                url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
                 method: 'jira.login',
                 params: [e.target.form.login.value, e.target.form.password.value],
                 complete: function(){ thisLogin.stopProgress() },

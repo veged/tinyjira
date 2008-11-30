@@ -18,7 +18,7 @@ var TinyJira = {
                 thisTinyJira.jira.soap = '.obj[' + x.result.objectID + ']';
                 thisTinyJira.getCurrentUser = function() {
                     jQuery.jsonRpc({
-                        url: thisTinyJira.jira.url + '/plugins/servlet/rpc/json',
+                        url: thisTinyJira.jira.url + 'plugins/servlet/rpc/json',
                         method: 'jira.getCurrentUser',
                         params: [thisTinyJira.jira.auth],
                         success: function(x){

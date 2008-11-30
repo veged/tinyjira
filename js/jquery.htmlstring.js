@@ -43,7 +43,7 @@ $.htmlString = $.htmlString || function() {
             html += '<' + tagName;
 
             $.each(tagAttributes, function(n, v){
-                html += ' ' + n + '="' + v + '"';
+                html += ' ' + n + '="' + $.htmlStringText(v) + '"';
             });
         }
     

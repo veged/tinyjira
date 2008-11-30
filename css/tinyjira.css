@@ -42,7 +42,11 @@ ol, ul, li {
 }
 
 code, input, textarea {
-    font-family: Arial,sans-serif;
+    font-family: Arial, sans-serif;
+}
+
+input.text, textarea {
+    border: 1px #999 solid;
 }
 
 a {
@@ -328,6 +332,19 @@ tr.hover td.progress,
 
 .b-issues-table .description {
     line-height: 1.5;
+}
+
+.b-issues-table a.summary {
+    text-decoration: none;
+    color: #000 !important;
+}
+
+.b-issues-table tr.hover .summary {
+    background-color: #f0f0f0;
+}
+
+.b-issues-table a.summary:hover {
+    background-color: #ccc;
 }
 
 .b-issues-table .alltext-descopen .summary {

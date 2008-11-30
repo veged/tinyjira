@@ -26,7 +26,7 @@ TinyJira.Filters.prototype.toDOM = function(parentNode) {
         });
     } else {
         jQuery.jsonRpc({
-            url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
+            url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
             method: TinyJira.jira.soap + '.getSavedFilters',
             params: [TinyJira.jira.auth],
             success: function(x){
