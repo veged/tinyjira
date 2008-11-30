@@ -188,7 +188,7 @@ h1, .h1, h2, .h2, h3 {
 
 .b-head-line h1 a.logout:hover
 {
-    color: #FF643B !important;
+    color: #ff643b !important;
 }
 
 
@@ -309,13 +309,16 @@ tr.hover td.progress,
 }
 
 /* @group alltext */
-.b-issues-table .alltext-descopen .summary,
-.b-issues-table .alltext-descclosed .summary {
-    cursor: pointer;
+.b-issues-table a.description-preview {
+    color: #aaa !important;
 }
 
-.b-issues-table .description-preview {
-    color: #aaa;
+.b-issues-table tr.hover a.description-preview {
+    color: #00e !important;
+}
+
+.b-issues-table tr a.description-preview:hover {
+    color: #ff643b !important;
 }
 
 .b-issues-table .description {
@@ -331,7 +334,6 @@ tr.hover td.progress,
     display: block;
 }
 
-.b-issues-table .alltext-descopen .description-preview,
 .b-issues-table .alltext-descclosed .description {
     display: none;
 }

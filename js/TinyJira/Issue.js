@@ -191,6 +191,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ['td',
                 {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
                 (function(){
+                    var result = $.htmlString('span', {'class': 'summary'}, $.htmlStringText(thisIssue.json.summary));
                     if (thisIssue.json.description) {
                         var previewLength = (function(x){
                                 var y = 250, a = 10, b = 20,
@@ -200,16 +201,12 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
 
                         var description = $.htmlStringText(thisIssue.json.description),
                             descriptionPreview = description.length - previewLength < 5 ? description : description.substring(0, previewLength) + '&hellip;';
-                        return $.htmlString([
-                            ['div', {'class': 'summary'}, [
-                                [null, $.htmlStringText(thisIssue.json.summary) + ' '],
-                                ['span', {'class': 'description-preview'}, descriptionPreview]
-                            ]],
+                        result += ' ' + $.htmlString([
+                            ['a', {'class': 'b-pseudo-link description-preview'}, ['span', descriptionPreview]],
                             ['div', {'class': 'description'}, description]
                         ]);
-                    } else {
-                        return $.htmlString('div', {'class': 'summary'}, $.htmlStringText(thisIssue.json.summary));
                     }
+                    return result;
                 })()
             ],
             ['td', {'class': 'priority'},
@@ -289,7 +286,16 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             return false;
         })
         .delegate('longclick', '.a-st', function(){ thisIssue.setStatus(this.onclick()); return false; })
-        .delegate('click', '.alltext-descclosed, .alltext-descopen', function(){ $(this).toggleClass('alltext-descclosed').toggleClass('alltext-descopen'); return false; });
+        .delegate('click', '.description-preview', function(){
+            var thisLink = $(this),
+                switchedHTML = thisLink.data('switchedHTML') || $.htmlString('span', 'свернуть');
+            thisLink.data('switchedHTML', thisLink.html());
+
+            thisLink
+                .html(switchedHTML)
+                .parents('.alltext').toggleClass('alltext-descclosed').toggleClass('alltext-descopen');
+            return false;
+        });
 
     $().bind('TinyJira:issueShowForm', function(e, issue){ if (thisIssue != issue) thisIssue.hideForm() });
 

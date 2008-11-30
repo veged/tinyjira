@@ -9,8 +9,3 @@
         cursor: hand;
     }
 /* @end */
-
-.b-issues-table .alltext-descopen .summary,
-.b-issues-table .alltext-descclosed .summary {
-    cursor: hand;
-}
