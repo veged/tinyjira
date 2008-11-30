@@ -297,7 +297,7 @@ td .b-head-line h1 a.logout:hover
 }
 
 .b-issues-table td {
-    padding: 0.7em 1em 0.2em 0;
+    padding: 0.5em 1em 0.2em 0;
     border-bottom: 1px solid #fefefe;
 }
 
@@ -338,6 +338,10 @@ tr.hover td.progress,
 }
 
 /* @group alltext */
+.b-issues-table .alltext {
+    line-height: 1.2;
+}
+
 .b-issues-table .description {
     line-height: 1.5;
 }
@@ -365,14 +369,17 @@ tr.hover td.progress,
 }
 
 .b-issues-table .alltext .assignee,
+.b-issues-table .alltext .components,
 .b-issues-table .alltext .fixversions {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     background-color: #f0f0f0;
     color: #666;
+    white-space: nowrap;
 }
 
 .b-issues-table-short .alltext .assignee,
+.b-issues-table-short .alltext .components,
 .b-issues-table-short .alltext .fixversions,
 .b-issues-table .alltext-descclosed .description {
     display: none;

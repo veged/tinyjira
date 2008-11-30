@@ -173,6 +173,16 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                             [null, ' &nbsp;']
                         ]);
 
+                    if (thisIssue.json.components.length > 0) {
+                        result += ' ' + $.htmlString('span', {'class':'components'}, [
+                                [null, '&nbsp;&there4;'],
+                                ['a', {'class':'b-pseudo-link components-change', href: 'javascript:'}, ['span',
+                                    $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')
+                                ]],
+                                [null, ' &nbsp;']
+                            ]);
+                    }
+
                     if (thisIssue.json.fixVersions.length > 0) {
                         result += ' ' + $.htmlString('span', {'class':'fixversions'}, [
                                 [null, '&nbsp;&beta; '],
