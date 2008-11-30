@@ -169,11 +169,11 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
 
                     result += ' ' + $.htmlString('span', {'class':'assignee'}, [
                             [null, '&nbsp;&#9786;'],
-                            ['a', {'class':'b-pseudo-link assignee-change', href: 'javascript:'}, ['span', thisIssue.json.assignee]],
+                            ['a', {'class':'b-pseudo-link assignee-change', href: 'javascript:'}, ['span', thisIssue.json.assignee.login || thisIssue.json.assignee]],
                             [null, ' &nbsp;']
                         ]);
 
-                    if (thisIssue.json.components.length > 0) {
+                    if (thisIssue.json.components && thisIssue.json.components.length > 0) {
                         result += ' ' + $.htmlString('span', {'class':'components'}, [
                                 [null, '&nbsp;&there4;'],
                                 ['a', {'class':'b-pseudo-link components-change', href: 'javascript:'}, ['span',
@@ -183,7 +183,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                             ]);
                     }
 
-                    if (thisIssue.json.fixVersions.length > 0) {
+                    if (thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0) {
                         result += ' ' + $.htmlString('span', {'class':'fixversions'}, [
                                 [null, '&nbsp;&beta; '],
                                 ['a', {'class':'b-pseudo-link fixversions-change', href: 'javascript:'}, ['span',
@@ -310,6 +310,17 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             );
             return false;
         })
+        .delegate('click', '.assignee-change', function(){
+            thisIssue.createForm(1, $.htmlString([
+                    ['h3', 'Изменение исполнителя'],
+                    ['input', {name: 'assignee', type: 'text', value: thisIssue.json.assignee.login || thisIssue.json.assignee, 'class': 'text', style: 'width: 100%;'}],
+                ]),
+                function(e){ thisIssue.update({
+                    assignee: e.target.form.assignee.value
+                })}
+            );
+            return false;
+        })
         .delegate('click', '.description-preview', function(){
             var thisLink = $(this),
                 switchedHTML = thisLink.data('switchedHTML') || $.htmlString('span', 'свернуть');
@@ -365,7 +376,8 @@ TinyJira.Issue.prototype.createForm = function(target, content, onsubmit) {
             onsubmit.apply(this, arguments);
             return false;
         })
-        .delegate('click', '.cancel', function(e){ e.preventDefault(); thisIssue.hideForm(target); return false; });
+        .delegate('click', '.cancel', function(e){ e.preventDefault(); thisIssue.hideForm(target); return false; })
+        .find("input[type='text'], textarea, select").eq(0).focus();
 
     thisIssue.form = {
         decorationTr: decorationTr,
