@@ -207,7 +207,16 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
     ]);
 
     var tr = $(trHTML)
-        .delegate('click', '.a-key', function(e){ e.preventDefault(); thisIssue.toggleForm(1); return false; })
+        .delegate('click', '.a-key', function(e){
+            e.preventDefault();
+            thisIssue.createForm(1, $.htmlString([
+                    ['h3', 'Добавление комментария'],
+                    ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}]
+                ]),
+                function(e){ if (e.target.form.comment.value != '') thisIssue.addComment(e.target.form.comment.value) }
+            );
+            return false;
+        })
         .delegate('click', '.a-pr', function(){
             var oldPriority = thisIssue.json.priority,
                 oldPriorityName = TinyJira.issuePriorities[5 - oldPriority],
@@ -467,7 +476,7 @@ TinyJira.Issue.prototype.createForm = function(target, content, onsubmit) {
             ['form', {action: '', 'class': ''}, [
                 ['div', content],
                 ['br'],
-                ['input', {type: 'submit', 'class': 'submit', value: 'Изменить'}],
+                ['input', {type: 'submit', 'class': 'submit', value: 'Сделать'}],
                 [null, ' или&nbsp;'],
                 ['a', {'class': 'cancel b-pseudo-link', href: 'javascript:'}, ['span', 'Отменить']]
             ]],
