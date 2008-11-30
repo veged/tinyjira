@@ -314,6 +314,10 @@ tr.hover td.progress,
     cursor: pointer;
 }
 
+.b-issues-table .description-preview {
+    color: #aaa;
+}
+
 .b-issues-table .description {
     line-height: 1.5;
 }
@@ -327,6 +331,7 @@ tr.hover td.progress,
     display: block;
 }
 
+.b-issues-table .alltext-descopen .description-preview,
 .b-issues-table .alltext-descclosed .description {
     display: none;
 }

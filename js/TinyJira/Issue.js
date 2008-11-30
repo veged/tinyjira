@@ -161,10 +161,21 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ],
             ['td',
                 {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
-                [
-                    ['div', {'class':'summary'}, $.htmlStringText(thisIssue.json.summary)],
-                    (thisIssue.json.description ? ['div', {'class':'description'}, $.htmlStringText(thisIssue.json.description)] : [])
-                ]
+                (function(){
+                    if (thisIssue.json.description) {
+                        var description = $.htmlStringText(thisIssue.json.description),
+                            descriptionPreview = description.length - 30 < 5 ? description : description.substring(0, 30) + '&hellip;';
+                        return $.htmlString([
+                            ['div', {'class': 'summary'}, [
+                                [null, $.htmlStringText(thisIssue.json.summary) + ' '],
+                                ['span', {'class': 'description-preview'}, descriptionPreview]
+                            ]],
+                            ['div', {'class': 'description'}, description]
+                        ]);
+                    } else {
+                        return $.htmlString('div', {'class': 'summary'}, $.htmlStringText(thisIssue.json.summary));
+                    }
+                })()
             ],
             ['td', {'class': 'priority'},
                 ['div', {'class':'b-priority'},
