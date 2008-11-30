@@ -364,13 +364,16 @@ tr.hover td.progress,
     display: block;
 }
 
-.b-issues-table .alltext .assignee {
+.b-issues-table .alltext .assignee,
+.b-issues-table .alltext .fixversions {
     -webkit-border-radius: 5px;
     -moz-border-radius: 5px;
     background-color: #f0f0f0;
+    color: #666;
 }
 
 .b-issues-table-short .alltext .assignee,
+.b-issues-table-short .alltext .fixversions,
 .b-issues-table .alltext-descclosed .description {
     display: none;
 }
