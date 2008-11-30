@@ -23,8 +23,8 @@
 		<script type="text/javascript">
             $(document).ready(function(){
                 $('.h-page-l, .h-page-c, .b-head')
-                    .delegate('mouseover', 'tr, td, h2', function(){$(this).addClass('hover')})
-                    .delegate('mouseout', 'tr, td, h2', function(){$(this).removeClass('hover')});
+                    .delegate('mouseover', 'th, tr, td, h2', function(){$(this).addClass('hover')})
+                    .delegate('mouseout', 'th, tr, td, h2', function(){$(this).removeClass('hover')});
                 TinyJira.init(function(){
                     (new TinyJira.Filters()).toDOM($('.h-page-l'));
                 });

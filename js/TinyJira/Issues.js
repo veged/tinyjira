@@ -16,9 +16,9 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
                 (thisIssues.json ?
                     ['span', {'class':'b-sup-controls'}, [
                         [null, ' &nbsp;'],
-                        ['sup', ['a', {'class':'b-pseudo-link refresh'}, ['span', 'обновить']]],
+                        ['sup', ['a', {'class':'b-pseudo-link refresh', href:'javascript:'}, ['span', 'обновить']]],
                         [null, ' &nbsp;'],
-                        ['sup', ['a', {'class':'b-pseudo-link hide'}, ['span', 'скрыть']]]
+                        ['sup', ['a', {'class':'b-pseudo-link hide', href:'javascript:'}, ['span', 'скрыть']]]
                     ]] :
                     []
                 ),
@@ -27,15 +27,22 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
                     []
                 )
             ]],
-            ['div', {'class': 'b-issues-table TinyJira-c-IssuesTable'},
+            ['div', {'class': 'b-issues-table b-issues-table-short TinyJira-c-IssuesTable'},
                 (thisIssues.json ?
-                    ['table', ['tr', [
-                        ['th', 'Ключ'],
-                        ['th', {width:'100%'}, 'Описание'],
-                        ['th', 'Приоритет'],
-                        ['th', 'Статус'],
-                        ['th', {'class':'progress'}, ['div']]
-                    ]]] :
+                    ['table', ['tr', $.map(
+                            ['Ключ', 'Описание', 'Приоритет', 'Статус'],
+                            function(v, i) {
+                                var span = $.htmlString('span', {'class': 'th'}, v);
+                                if (i == 1 && thisIssues.json.length > 0) {
+                                    span += ' ' + $.htmlString(
+                                        'a', {'class': 'b-pseudo-link issues-details', href: 'javascript:'},
+                                        ['span', 'расширить']
+                                    );
+                                }
+                                return $.htmlString('th', (i == 1 ? {width:'100%'} : {}), span);
+                            }
+                        ).join('') + $.htmlString('th', {'class':'progress'}, ['div'])
+                    ]] :
                     ['span', {'class':'b-progress'}, '<i></i>']
                 )
             ]
@@ -50,18 +57,28 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
             (new TinyJira.Issue(this)).toDOM(table);
         });
 
-        dom.find('.b-sup-controls .refresh').click(function(e){
-            e.preventDefault();
-            delete thisIssues.json;
-            thisIssues.reinit();
-        });
+        dom.find('th, .b-sup-controls')
+            .delegate('click', '.issues-details', function(e){
+                var thisLink = $(this),
+                    switchedHTML = thisLink.data('switchedHTML') || $.htmlString('span', 'сократить');
+                thisLink.data('switchedHTML', thisLink.html());
 
-        dom.find('.b-sup-controls .hide').click(function(e){
-            e.preventDefault();
-            thisIssues.dom.hide();
-            delete thisIssues.json;
-            setTimeout(function(){thisIssues.dom.remove()}, 1);
-        });
+                thisLink
+                    .html(switchedHTML)
+                    .parents('.b-issues-table').toggleClass('b-issues-table-short').toggleClass('b-issues-table-long');
+                return false;
+            })
+            .delegate('click', '.refresh', function(e){
+                delete thisIssues.json;
+                thisIssues.reinit();
+                return false;
+            })
+            .delegate('click', '.hide', function(e){
+                thisIssues.dom.hide();
+                delete thisIssues.json;
+                setTimeout(function(){thisIssues.dom.remove()}, 1);
+                return false;
+            });
 
     } else {
         jQuery.jsonRpc({

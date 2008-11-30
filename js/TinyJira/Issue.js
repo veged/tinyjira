@@ -166,6 +166,13 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                 {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
                 (function(){
                     var result = $.htmlString('a', {'class': 'summary', href: 'javascript:'}, $.htmlStringText(thisIssue.json.summary));
+
+                    result += ' ' + $.htmlString('span', {'class':'assignee'}, [
+                            [null, '&nbsp;&#9786;'],
+                            ['a', {'class':'b-pseudo-link assignee-change', href: 'javascript:'}, ['span', thisIssue.json.assignee]],
+                            [null, ' &nbsp;']
+                        ]);
+
                     if (thisIssue.json.description) {
                         var previewLength = (function(x){
                                 var y = 250, a = 10, b = 20,
