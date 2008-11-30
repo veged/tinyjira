@@ -9,6 +9,15 @@ var empty = {
     'link': true
 }
 
+$.htmlStringText = $.htmlStringText || function(s) {
+    return String(s)
+        .replace(/&/g, '&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;')
+        .replace(/\'/g,'&apos;')
+        .replace(/"/g,'&quot;');
+};
+
 $.htmlString = $.htmlString || function() {
     var _this = this,
         html = '';

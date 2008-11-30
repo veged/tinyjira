@@ -162,8 +162,8 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ['td',
                 {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
                 [
-                    ['div', {'class':'summary'}, String(thisIssue.json.summary)],
-                    (thisIssue.json.description ? ['div', {'class':'description'}, String(thisIssue.json.description)] : [])
+                    ['div', {'class':'summary'}, $.htmlStringText(thisIssue.json.summary)],
+                    (thisIssue.json.description ? ['div', {'class':'description'}, $.htmlStringText(thisIssue.json.description)] : [])
                 ]
             ],
             ['td', {'class': 'priority'},
