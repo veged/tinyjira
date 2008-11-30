@@ -359,6 +359,11 @@ tr.hover td.progress,
     background-color: #fff;
 }
 
+.b-issues-table .inline-form form h3 {
+    font-weight: bold;
+    font-size: 100%;
+    padding-bottom: 0.5em;
+}
 /* @end */
 
 /* @group b-priority */
@@ -414,6 +419,32 @@ tr.hover .pr-critical-set a i {
 .pr-blocker-set a i,
 tr.hover .pr-blocker-set a i {
     background-position: -80px 0;
+}
+
+
+.pr-trivial
+{
+    color: #6f0;
+}
+
+.pr-minor
+{
+    color: #390;
+}
+
+.pr-normal
+{
+    color: #fff200;
+}
+
+.pr-critical
+{
+    color: #f90;
+}
+
+.pr-blocker
+{
+    color: #f00;
 }
 
 

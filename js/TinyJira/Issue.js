@@ -46,14 +46,15 @@ TinyJira.issuePriorityTitles = {
     'blocker': 'Очень важно'
 };
 
-TinyJira.Issue.prototype.setPriority = function(priority) {
+TinyJira.Issue.prototype.setPriority = function(priority, comment) {
     var thisIssue = this;
     thisIssue.startProgress();
     jQuery.jsonRpc({
         url: TinyJira.jira.url + '/plugins/servlet/rpc/json',
         method: 'jira.updateIssue',
         params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: {
-            priority: [String(priority)]
+            priority: [String(priority)],
+            comment: [comment]
         }}, true],
         complete: function(){ thisIssue.stopProgress() },
         success: function(x){
@@ -120,7 +121,10 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
     jQuery.jsonRpc(jsonRpcOptions);
 };
 
-TinyJira.Issue.prototype.reinit = TinyJira.reinit;
+TinyJira.Issue.prototype.reinit = function(){
+    this.hideForm();
+    TinyJira.reinit.apply(this, arguments);
+}
 
 TinyJira.Issue.prototype.update = function(fieldValues) {
     var thisIssue = this;
@@ -187,8 +191,28 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
 
     var tr = $(trHTML)
         .delegate('click', '.a-key', function(e){ e.preventDefault(); thisIssue.toggleForm(1); return false; })
-        .delegate('click', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; })
-        .delegate('click', '.a-st', function(){ thisIssue.setStatus(this.onclick()); return false; })
+        .delegate('click', '.a-pr', function(){
+            var oldPriority = thisIssue.json.priority,
+                oldPriorityName = TinyJira.issuePriorities[5 - oldPriority],
+                oldPriorityTitle = TinyJira.issuePriorityTitles[oldPriorityName];
+            var newPriority = this.onclick(),
+                newPriorityName = TinyJira.issuePriorities[5 - newPriority],
+                newPriorityTitle = TinyJira.issuePriorityTitles[newPriorityName];
+            thisIssue.createForm(3, $.htmlString([
+                    ['h3', [
+                        [null, 'Изменение приоритета: '],
+                        ['span', {'class': 'pr-' + oldPriorityName}, oldPriorityTitle.toLowerCase()],
+                        [null, ' &rarr; '],
+                        ['span', {'class': 'pr-' + newPriorityName}, newPriorityTitle.toLowerCase()],
+                    ]],
+                    ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}]
+                ]),
+                function(e){ thisIssue.setPriority(newPriority, e.target.form.comment.value) }
+            );
+            return false;
+        })
+        .delegate('longclick', '.a-pr', function(){ thisIssue.setPriority(this.onclick()); return false; })
+        .delegate('longclick', '.a-st', function(){ thisIssue.setStatus(this.onclick()); return false; })
         .delegate('click', '.alltext-descclosed, .alltext-descopen', function(){ $(this).toggleClass('alltext-descclosed').toggleClass('alltext-descopen'); return false; });
 
     $().bind('TinyJira:issueShowForm', function(e, issue){ if (thisIssue != issue) thisIssue.hideForm() });
@@ -358,9 +382,9 @@ TinyJira.Issue.prototype.toDOM1 = function(parentNode) {
     return tr;
 };
 
-TinyJira.Issue.prototype.createForm = function(target) {
+TinyJira.Issue.prototype.createForm = function(target, content, onsubmit) {
     if (!this.dom) return;
-    if (this.form) return this.form;
+    if (this.form) this.hideForm();
     
     var thisIssue = this;
 
@@ -371,9 +395,9 @@ TinyJira.Issue.prototype.createForm = function(target) {
     var formHTML = $.htmlString('tr', {'class': 'inline-form'},
         ['td', {colspan: '4'}, [
             ['form', {action: '', 'class': ''}, [
-                ['textarea', {style: 'width: 100%; height: 100px;'}],
-                ['br'], ['br'],
-                ['input', {type: 'button', 'class': 'submit', value: 'Изменить'}],
+                ['div', content],
+                ['br'],
+                ['input', {type: 'submit', 'class': 'submit', value: 'Изменить'}],
                 [null, ' или&nbsp;'],
                 ['a', {'class': 'cancel b-pseudo-link', href: 'javascript:'}, ['span', 'Отменить']]
             ]],
@@ -388,6 +412,11 @@ TinyJira.Issue.prototype.createForm = function(target) {
         .after(decorationTr);
 
     var tr = $(formTr)
+        .delegate('click', '.submit', function(e){
+            e.preventDefault();
+            onsubmit.apply(this, arguments);
+            return false;
+        })
         .delegate('click', '.cancel', function(e){ e.preventDefault(); thisIssue.hideForm(target); return false; });
 
     thisIssue.form = {
@@ -400,15 +429,6 @@ TinyJira.Issue.prototype.createForm = function(target) {
     return thisIssue.form;
 };
 
-TinyJira.Issue.prototype.toggleForm = function(target) {
-    if (!this.dom) return;
-    if (this.form) {
-        this.hideForm();
-    } else {
-        this.createForm(target);
-    }
-};
-
 TinyJira.Issue.prototype.hideForm = function() {
     if (!this.dom || !this.form) return;
     $.each(this.form, function(){
@@ -419,6 +439,15 @@ TinyJira.Issue.prototype.hideForm = function() {
     this.dom.removeClass('with-inline-form');
 
     delete this.form;
+};
+
+TinyJira.Issue.prototype.toggleForm = function(target, content, onsubmit) {
+    if (!this.dom) return;
+    if (this.form) {
+        this.hideForm();
+    } else {
+        this.createForm(target, content, onsubmit);
+    }
 };
 
 TinyJira.Issue.prototype.startProgress = function() {
