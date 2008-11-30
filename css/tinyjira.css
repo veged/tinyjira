@@ -186,7 +186,12 @@ h1, .h1, h2, .h2, h3 {
     color: #999 !important;
 }
 
-.b-head-line h1 a.logout:hover
+td.hover .b-head-line h1 a.logout
+{
+    color: #fff !important;
+}
+
+td .b-head-line h1 a.logout:hover
 {
     color: #ff643b !important;
 }
