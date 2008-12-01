@@ -4,6 +4,14 @@ var TinyJira = {
         url: $.cookie('jira-url'),
         auth: $.cookie('jira-auth')
     },
+    options: {
+        set: function(name, value) {
+            $.cookie('jira-' + name, value);
+            this[name] = value;
+        },
+        'issues-details': $.cookie('jira-issues-details')
+    },
+
     init: function(callback) {
         var thisTinyJira = this;
         if (!thisTinyJira.jira.url) {

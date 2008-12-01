@@ -27,7 +27,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
                     []
                 )
             ]],
-            ['div', {'class': 'b-issues-table b-issues-table-short TinyJira-c-IssuesTable'},
+            ['div', {'class': 'b-issues-table TinyJira-c-IssuesTable b-issues-table-' + (TinyJira.options['issues-details'] ? 'long' : 'short')},
                 (thisIssues.json ?
                     ['table', ['tr', $.map(
                             ['Ключ', '&ensp;Описание', 'Приоритет', 'Статус'],
@@ -36,7 +36,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
                                 if (i == 1 && thisIssues.json.length > 0) {
                                     span += ' ' + $.htmlString(
                                         'a', {'class': 'b-pseudo-link issues-details', href: 'javascript:'},
-                                        ['span', 'расширить']
+                                        ['span', TinyJira.options['issues-details'] ? 'сократить' : 'расширить']
                                     );
                                 }
                                 return $.htmlString('th', (i == 1 ? {width:'100%'} : {}), span);
@@ -60,12 +60,14 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
         dom.find('th, .b-sup-controls')
             .delegate('click', '.issues-details', function(e){
                 var thisLink = $(this),
-                    switchedHTML = thisLink.data('switchedHTML') || $.htmlString('span', 'сократить');
+                    switchedHTML = thisLink.data('switchedHTML') || $.htmlString('span', TinyJira.options['issues-details'] ? 'расширить' : 'сократить');
                 thisLink.data('switchedHTML', thisLink.html());
 
                 thisLink
                     .html(switchedHTML)
                     .parents('.b-issues-table').toggleClass('b-issues-table-short').toggleClass('b-issues-table-long');
+
+                TinyJira.options.set('issues-details', TinyJira.options['issues-details'] ? null : true);
                 return false;
             })
             .delegate('click', '.refresh', function(e){
