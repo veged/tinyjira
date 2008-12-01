@@ -383,6 +383,12 @@ tr.hover td.progress,
 .b-issues-table tr.hover .alltext .assignee,
 .b-issues-table tr.hover .alltext .components,
 .b-issues-table tr.hover .alltext .fixversions {
+    color: #333;
+}
+
+.b-issues-table tr.hover .alltext .assignee,
+.b-issues-table tr.hover .alltext .components,
+.b-issues-table tr.hover .alltext .fixversions {
     background-color: #ccc;
 }
 
