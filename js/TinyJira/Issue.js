@@ -203,7 +203,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                         var description = $.htmlStringText(thisIssue.json.description),
                             descriptionPreview = description.length - previewLength < 5 ? description : description.substring(0, previewLength) + '&hellip;';
                         result += ' ' + $.htmlString([
-                            ['a', {'class': 'b-pseudo-link description-preview'}, ['span', descriptionPreview]],
+                            ['a', {'class': 'b-pseudo-link description-preview', title: 'Подробное описание'}, ['span', descriptionPreview]],
                             ['div', {'class': 'description'}, description]
                         ]);
                     }
