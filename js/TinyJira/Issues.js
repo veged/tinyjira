@@ -30,7 +30,7 @@ TinyJira.Issues.prototype.toDOM = function(parentNode) {
             ['div', {'class': 'b-issues-table b-issues-table-short TinyJira-c-IssuesTable'},
                 (thisIssues.json ?
                     ['table', ['tr', $.map(
-                            ['Ключ', 'Описание', 'Приоритет', 'Статус'],
+                            ['Ключ', '&ensp;Описание', 'Приоритет', 'Статус'],
                             function(v, i) {
                                 var span = $.htmlString('span', {'class': 'th'}, v);
                                 if (i == 1 && thisIssues.json.length > 0) {

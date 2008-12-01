@@ -165,12 +165,12 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ['td',
                 {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
                 (function(){
-                    var result = $.htmlString('a', {'class': 'summary', href: 'javascript:'}, $.htmlStringText(thisIssue.json.summary));
+                    var result = $.htmlString('a', {'class': 'summary', href: 'javascript:'}, '&ensp;' + $.htmlStringText(thisIssue.json.summary) + '&ensp;');
 
                     result += ' ' + $.htmlString('span', {'class':'assignee'}, [
                             [null, '&nbsp;&#9786;'],
                             ['a', {'class':'b-pseudo-link assignee-change', href: 'javascript:'}, ['span', thisIssue.json.assignee.login || thisIssue.json.assignee]],
-                            [null, ' &nbsp;']
+                            [null, '&ensp;']
                         ]);
 
                     if (thisIssue.json.components && thisIssue.json.components.length > 0) {
@@ -179,17 +179,17 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                                 ['a', {'class':'b-pseudo-link components-change', href: 'javascript:'}, ['span',
                                     $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')
                                 ]],
-                                [null, ' &nbsp;']
+                                [null, '&ensp;']
                             ]);
                     }
 
                     if (thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0) {
                         result += ' ' + $.htmlString('span', {'class':'fixversions'}, [
-                                [null, '&nbsp;&beta; '],
+                                [null, '&ensp;&beta; '],
                                 ['a', {'class':'b-pseudo-link fixversions-change', href: 'javascript:'}, ['span',
                                     $.map(thisIssue.json.fixVersions, function(v){ return v.name }).join(', ')
                                 ]],
-                                [null, ' &nbsp;']
+                                [null, '&ensp;']
                             ]);
                     }
 
