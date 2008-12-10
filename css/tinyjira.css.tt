@@ -326,7 +326,7 @@ tr.hover .b-issue-label:hover
 
 .b-issues-table td {
     padding: 0.5em 1em 0.2em 0;
-    border-bottom: 1px solid #[% colors.main_background %];
+    border-bottom: 1px solid #[% colors.main_background_hack %];
 }
 
 .b-issues-table tr.hover td {

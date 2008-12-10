@@ -13,6 +13,7 @@ my %colors1 = (
 my %colors = (
     main => '0a192c',
     main_background => 'fcfdfe',
+    main_background_hack => 'fefefe',
     submain => '255594',
     submain_background => 'cedff5',
     submain_background2 => 'a3c2eb',
