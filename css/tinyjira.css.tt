@@ -1,0 +1,647 @@
+/* @group common */
+* {
+    font-size: 100%;
+    margin: 0;
+}
+
+body {
+    background-color: #[% colors.main_background %];
+    color: #[% colors.main %];
+    font-family: Arial,sans-serif;
+    font-size: 0.8em;
+    font-size-adjust: none;
+    font-stretch: normal;
+    font-style: normal;
+    font-variant: normal;
+    font-weight: normal;
+    line-height: normal;
+    padding: 0 0 1em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-weight: normal;
+    padding: 0;
+}
+
+table, table th, table td {
+    border-collapse: collapse;
+    empty-cells: show;
+    padding: 0;
+    text-align: left;
+    vertical-align: top;
+}
+
+ol, ul {
+    list-style-image: none;
+    list-style-position: outside;
+    list-style-type: none;
+}
+
+ol, ul, li {
+    padding: 0;
+}
+
+code, input, textarea {
+    font-family: Arial, sans-serif;
+}
+
+input.text, textarea {
+    border: 1px #[% colors.submain_background2 %] solid;
+}
+
+a {
+    color: #[% colors.link %] !important;
+    text-decoration: underline;
+}
+
+a:hover {
+    color: #[% colors.link_hover %] !important;
+}
+
+a img {
+    border: 0 none;
+}
+
+b {
+    font-weight: normal;
+}
+
+i {
+    font-style: normal;
+}
+
+h1, .h1, h2, .h2, h3 {
+    font-size: 180%;
+}
+
+.g-hidden {
+    display: none !important;
+}
+
+/* @end */
+
+/* @group b-pseudo-link */
+    .b-pseudo-link
+    {
+        position: relative;
+        top: -0.14em;
+
+        cursor: pointer;
+        white-space: nowrap;
+        text-decoration: none;
+
+        border-bottom: 1px dotted;
+    }
+
+    .b-pseudo-link span
+    {
+        position: relative;
+        top: 0.14em;
+    }
+/* @end */
+
+/* @group subheader */
+    h2 .subheader
+    {
+        /*font-size: 55.5%;*/
+        display: block;
+    }
+/* @end */
+
+/* @group .b-sup-controls */
+    .b-sup-controls
+    {
+        /*font-size: 55.5%;*/
+    }
+
+    .b-sup-controls sup a
+    {
+        /*display: none;*/
+        color: #[% colors.submain_background2 %] !important;
+    }
+
+    .hover .b-sup-controls sup a
+    {
+        /*display: inline;*/
+        color: #[% colors.link %] !important;
+    }
+
+    .hover .b-sup-controls sup a:hover
+    {
+        color: #[% colors.link_hover %] !important;
+    }
+
+/* @end */
+
+/* @group b-head */
+.b-head {
+    width: 100%;
+}
+
+.b-head td {
+	width: 2%;
+}
+
+.b-head .l {
+    width: 16%;
+}
+
+.b-head .service {
+    text-align: right;
+    padding: 0.5em 0;
+}
+
+.b-head .service,
+.b-head .head-line {
+    width: 80%;
+}
+/*
+.b-head .service .b-login {
+	height: 1em;
+}
+
+.b-head .service .b-user {
+    font-weight: bold;
+}
+
+.b-head .login {
+    color: #060;
+}
+
+.b-head .logout {
+    color: #900;
+}
+*/
+.b-head-line {
+    padding: 0.1em 0 0.3em 0.9em;
+    background: #[% colors.link %] url(../i/head-background.gif) repeat scroll 0 50%;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+}
+
+.b-head-line h1 {
+    font-size: 100%;
+    padding-right: 3.5em;
+    color: #[% colors.main_background %];
+}
+
+.b-head-line h1 a.logout
+{
+    color: #[% colors.submain_background2 %] !important;
+}
+
+td.hover .b-head-line h1 a.logout
+{
+    color: #[% colors.main_background %] !important;
+}
+
+td .b-head-line h1 a.logout:hover
+{
+    color: #[% colors.link_hover %] !important;
+}
+
+
+/* @end */
+
+/* @group l-page */
+.l-page
+{
+    width: 100%;
+}
+
+.l-page-g
+{
+    width: 2%;
+}
+
+.l-page-g i
+{
+    display: block;
+    width: 10px;
+}
+
+.l-page-l {
+    width: 16%;
+}
+
+.h-page-l
+{
+    margin-right: 2em;
+}
+
+.l-page h2 {
+    margin: 1em 0 0.4em 0;
+}
+
+/* @end */
+
+/* @group b-progress */
+.b-progress i {
+    display: block;
+    width: 80px;
+    height: 16px;
+    background-image: url(../i/progress_80.gif);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+/* @end */
+
+/* @group b-cursor-progress */
+.b-cursor-progress i {
+    display: block;
+    width: 16px;
+    height: 16px;
+    background-image: url(../i/progress2.gif);
+    background-repeat: no-repeat;
+    background-position: 0 0;
+}
+
+.b-cursor-progress-1 i {
+    background-position: -16px 0;
+}
+.b-cursor-progress-2 i {
+    background-position: -32px 0;
+}
+.b-cursor-progress-3 i {
+    background-position: -48px 0;
+}
+.b-cursor-progress-4 i {
+    background-position: -64px 0;
+}
+.b-cursor-progress-5 i {
+    background-position: -80px 0;
+}
+/* @end */
+
+/* @group b-filters */
+.b-filters li
+{
+    padding-bottom: 0.3em;
+}
+/* @end */
+
+/* @group b-issues-table */
+.b-issues-table table {
+	width: 100%;
+}
+
+.b-issues-table th {
+    padding: 0.1em 1em 0.1em 0;
+    border-bottom: 1px solid #[% colors.main %];
+    font-weight: normal;
+}
+
+.b-issues-table .th {
+    font-weight: bold;
+}
+
+.b-issues-table td {
+    padding: 0.5em 1em 0.2em 0;
+    border-bottom: 1px solid #[% colors.main_background %];
+}
+
+.b-issues-table tr.hover td {
+	/*background-color: #[% colors.submain_background %];*/
+    border-bottom: 1px solid #[% colors.submain_background2 %];
+}
+
+.b-issues-table th.progress {
+    border-bottom: 1px solid #[% colors.main_background %];
+    padding-right: 0.5em;
+}
+
+.b-issues-table th.progress div {
+    width: 80px;
+}
+
+.b-issues-table td.progress,
+tr.hover td.progress,
+.b-issues-table tr.hover td.progress {
+    border-bottom: 1px solid #[% colors.main_background %] !important;
+    padding: 0.7em 0 0.2em 0.5em;
+}
+
+.b-issues-table a.issues-details,
+.b-issues-table a.description-preview {
+    color: #[% colors.submain_background2 %] !important;
+}
+
+.b-issues-table tr.hover a.issues-details,
+.b-issues-table tr.hover a.description-preview {
+    color: #[% colors.link %] !important;
+}
+
+.b-issues-table tr a.issues-details:hover,
+.b-issues-table tr a.description-preview:hover {
+    color: #[% colors.link_hover %] !important;
+}
+
+/* @group alltext */
+.b-issues-table .alltext {
+    line-height: 1.45
+}
+
+.b-issues-table .description {
+    line-height: 1.5;
+    padding-left: 0.5em;
+}
+
+.b-issues-table a.summary {
+    text-decoration: none;
+    color: #[% colors.main %] !important;
+    -webkit-border-radius: 0.65em;
+    -moz-border-radius: 0.65em;
+    border: 1px solid #[% colors.main_background %];
+}
+
+.b-issues-table tr.hover .summary {
+    background-color: #[% colors.submain_background %];
+    color: #[% colors.submain %] !important;
+    border-color: #[% colors.submain_background %];
+}
+
+.b-issues-table a.summary:hover {
+    background-color: #[% colors.submain_background2 %];
+    border-color: #[% colors.submain_background2 %];
+    color: #[% colors.link_hover %] !important;
+}
+
+.b-issues-table .alltext-descopen .summary {
+    font-weight: bold;
+    margin-bottom: 0.3em;
+}
+
+.b-issues-table .alltext-descopen .description {
+    display: block;
+}
+
+.b-issues-table .alltext .assignee,
+.b-issues-table .alltext .components,
+.b-issues-table .alltext .fixversions {
+    -webkit-border-radius: 0.65em;
+    -moz-border-radius: 0.65em;
+    border: 1px solid #[% colors.submain_background %];
+    background-color: #[% colors.submain_background %];
+    color: #[% colors.submain %] !important;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.b-issues-table tr.hover .alltext .assignee,
+.b-issues-table tr.hover .alltext .components,
+.b-issues-table tr.hover .alltext .fixversions {
+    color: #[% colors.main %] !important;
+    background-color: #[% colors.submain_background2 %];
+    border-color: #[% colors.submain_background2 %];
+}
+
+.b-issues-table tr.hover .alltext .assignee a,
+.b-issues-table tr.hover .alltext .components a,
+.b-issues-table tr.hover .alltext .fixversions a {
+    color: #[% colors.link %] !important;
+}
+
+.b-issues-table tr .alltext .assignee:hover,
+.b-issues-table tr .alltext .components:hover,
+.b-issues-table tr .alltext .fixversions:hover {
+    color: #[% colors.link_hover %] !important;
+    border-color: #[% colors.link_hover %];
+}
+
+.b-issues-table-short .alltext .assignee,
+.b-issues-table-short .alltext .components,
+.b-issues-table-short .alltext .fixversions,
+.b-issues-table .alltext-descclosed .description {
+    display: none;
+}
+
+/* @end */
+
+/* @group inline-form */
+
+.b-issues-table tr.with-inline-form td {
+    border-bottom: 1px solid #[% colors.main_background %];
+}
+
+.b-issues-table .inline-form-decoration td {
+	font-size: 1px;
+	height: 5px;
+    border-bottom: none !important;
+}
+
+.b-issues-table .inline-form-decoration td.with-inline-form {
+    background-color: #[% colors.submain_background2 %];
+}
+
+.b-issues-table .inline-form td {
+    padding: 1em;
+    border-bottom: 1px solid #[% colors.main_background %] !important;
+    background-color: #[% colors.submain_background %];
+}
+
+.b-issues-table .inline-form td.progress {
+    background-color: #[% colors.main_background %];
+}
+
+.b-issues-table .inline-form form h3 {
+    font-weight: bold;
+    font-size: 100%;
+    padding-bottom: 0.5em;
+}
+/* @end */
+
+/* @group b-priority */
+.b-priority {
+    width: 80px;
+}
+.b-priority .pr {
+	float: left;
+}
+
+.pr a,
+.pr i {
+    display: block;
+}
+
+.pr i {
+    width: 16px;
+    height: 16px;
+    background-image: url(../i/priority2.gif);
+    background-repeat: no-repeat;
+    background-position: 16px 16px;
+}
+
+tr.hover .b-priority i {
+    background-position: 0 0;
+}
+
+td.hover .b-priority i,
+tr.hover td.hover .b-priority i {
+    background-position: 0 -16px;
+}
+
+.pr-trivial-set a i,
+tr.hover .pr-trivial-set a i {
+    background-position: -16px 0;
+}
+
+.pr-minor-set a i,
+tr.hover .pr-minor-set a i {
+    background-position: -32px 0;
+}
+
+.pr-normal-set a i,
+tr.hover .pr-normal-set a i {
+    background-position: -48px 0;
+}
+
+.pr-critical-set a i,
+tr.hover .pr-critical-set a i {
+    background-position: -64px 0;
+}
+
+.pr-blocker-set a i,
+tr.hover .pr-blocker-set a i {
+    background-position: -80px 0;
+}
+
+
+.pr-trivial
+{
+    color: #6f0;
+}
+
+.pr-minor
+{
+    color: #390;
+}
+
+.pr-normal
+{
+    color: #fff200;
+}
+
+.pr-critical
+{
+    color: #f90;
+}
+
+.pr-blocker
+{
+    color: #f00;
+}
+
+
+td.hover .pr-trivial-set a i,
+tr.hover td.hover .pr-trivial-set a i,
+.pr-trivial a:hover i,
+tr.hover .pr-trivial a:hover i {
+    background-position: -16px -16px;
+}
+
+td.hover .pr-minor-set a i,
+tr.hover td.hover .pr-minor-set a i,
+.pr-minor a:hover i,
+tr.hover .pr-minor a:hover i {
+    background-position: -32px -16px;
+}
+
+td.hover .pr-normal-set a i,
+tr.hover td.hover .pr-normal-set a i,
+.pr-normal a:hover i,
+tr.hover .pr-normal a:hover i {
+    background-position: -48px -16px;
+}
+
+td.hover .pr-critical-set a i,
+tr.hover td.hover .pr-critical-set a i,
+.pr-critical a:hover i,
+tr.hover .pr-critical a:hover i {
+    background-position: -64px -16px;
+}
+
+td.hover .pr-blocker-set a i,
+tr.hover td.hover .pr-blocker-set a i,
+.pr-blocker a:hover i,
+tr.hover .pr-blocker a:hover i {
+    background-position: -80px -16px;
+}
+
+/* @end */
+
+/* @group b-status */
+.b-status {
+    width: 48px;
+}
+.b-status .st {
+	float: left;
+}
+
+.st a,
+.st i {
+    display: block;
+}
+
+.st i {
+    width: 16px;
+    height: 16px;
+    background-image: url(../i/status2.gif);
+    background-repeat: no-repeat;
+    background-position: 16px 16px;
+}
+
+tr.hover .b-status i {
+    background-position: 0 0;
+}
+
+td.hover .b-status i,
+tr.hover td.hover .b-status i {
+    background-position: -16px 0;
+}
+
+.st-needinfo-set a i,
+tr.hover .st-needinfo-set a i,
+td.hover .st-needinfo-set a i,
+tr.hover td.hover .st-needinfo-set a i,
+.st-needinfo a:hover i,
+tr.hover td.hover .st-needinfo a:hover i {
+    background-position: -32px 0;
+}
+
+.st-open-set a i,
+tr.hover .st-open-set a i,
+td.hover .st-open-set a i,
+tr.hover td.hover .st-open-set a i,
+.st-open a:hover i,
+tr.hover td.hover .st-open a:hover i {
+    background-position: -48px 0;
+}
+
+.st-closed-set a i,
+tr.hover .st-closed-set a i,
+td.hover .st-closed-set a i,
+tr.hover td.hover .st-closed-set a i,
+.st-closed a:hover i,
+tr.hover td.hover .st-closed a:hover i {
+    background-position: -64px 0;
+}
+
+.st-needinfo {
+    color: #fff200;
+}
+
+.st-open {
+    color: #f00;
+}
+
+.st-closed {
+    color: #3c0;
+}
+
+/* @end */
+/* @end */
+
+
+
+
