@@ -4,24 +4,28 @@
 TinyJira.Login = function() {
 };
 
+TinyJira.Login.prototype.toHTML = function() {
+    return $.htmlString('div', [
+        ['h2', 'Вы не авторизованы&hellip;'],
+        ['form', {action: '', method: 'post'}, [
+            ['label', [
+                [null, 'Логин: '],
+                ['input', {name: 'login', type: 'text', size: '25', value: ''}]
+            ]],
+            [null, '&nbsp; '],
+            ['label', [
+                [null, 'Пароль: '],
+                ['input', {name: 'password', type: 'password', size: '25', value: ''}]
+            ]],
+            [null, '&nbsp; '],
+            ['input', {type: 'submit', 'class': 'submit', value: 'Войти'}],
+        ]]
+    ]);
+};
+
 TinyJira.Login.prototype.toDOM = function(parentNode) {
     var thisLogin = this,
-        html = $.htmlString('div', [
-            ['h2', 'Вы не авторизованы&hellip;'],
-            ['form', {action: '', method: 'post'}, [
-                ['label', [
-                    [null, 'Логин: '],
-                    ['input', {name: 'login', type: 'text', size: '25', value: ''}]
-                ]],
-                [null, '&nbsp; '],
-                ['label', [
-                    [null, 'Пароль: '],
-                    ['input', {name: 'password', type: 'password', size: '25', value: ''}]
-                ]],
-                [null, '&nbsp; '],
-                ['input', {type: 'submit', 'class': 'submit', value: 'Войти'}],
-            ]]
-        ]);
+        html = thisLogin.toHTML();
 
     var dom = $(html)
         .delegate('click', '.submit', function(e){ 
@@ -34,7 +38,7 @@ TinyJira.Login.prototype.toDOM = function(parentNode) {
                 complete: function(){ thisLogin.stopProgress() },
                 success: function(x){
                     if (!x.result) {
-                        thisLogin.showMessage('<br/>Что-то пошло не так... попробуйте ещё раз.');
+                        thisLogin.showMessage('Что-то пошло не так... попробуйте ещё раз.');
                     } else {
                         thisLogin.dom.hide();
                         setTimeout(function(){thisLogin.dom.remove()}, 1);
@@ -56,7 +60,7 @@ TinyJira.Login.prototype.toDOM = function(parentNode) {
 
 TinyJira.Login.prototype.showMessage = function(message) {
     this.hideMessage();
-    this.dom.find('input.submit').after(
+    this.dom.find('form').after(
         $($.htmlString('div', {'class': 'message'}, message))
     );
 };

@@ -11,6 +11,11 @@ var TinyJira = {
         },
         'issues-details': $.cookie('jira-issues-details')
     },
+    layout: {
+        content: '.h-page-c',
+        sidebar: '.h-page-l',
+        head: '.b-head-line h1'
+    },
 
     init: function(callback) {
         var thisTinyJira = this;
@@ -31,9 +36,9 @@ var TinyJira = {
                         params: [thisTinyJira.jira.auth],
                         success: function(x){
                             if (!x.result) {
-                                (new thisTinyJira.Login()).toDOM($('.h-page-c'));
+                                (new thisTinyJira.Login()).toDOM($(thisTinyJira.layout.content));
                             } else {
-                                $('.b-head-line h1')
+                                $(thisTinyJira.layout.head)
                                     .html($.htmlString([
                                         ['span', {'class': 'h1'}, 'джиронька и ' + x.result.login + ' '],
                                         ['span', {'class': 'b-sup-controls'},
@@ -41,6 +46,7 @@ var TinyJira = {
                                         ]
                                     ]))
                                     .delegate('click', '.logout', function(e){ $.cookie('jira-auth', null) });
+                                thisTinyJira.user = x.result;
                                 callback.call(thisTinyJira);
                             }
                         }
