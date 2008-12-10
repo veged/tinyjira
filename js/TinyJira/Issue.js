@@ -119,6 +119,18 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
     jQuery.jsonRpc(jsonRpcOptions);
 };
 
+TinyJira.Issue.prototype.progressWorkflowActionWithComment = function(action, comment) {
+    var thisIssue = this;
+    thisIssue.progressWorkflowAction(action, function(x){
+        thisIssue.json = x.result;
+        if (comment && comment != '') {
+            thisIssue.addComment(comment);
+        } else {
+            thisIssue.reinit();
+        }
+    });
+};
+
 TinyJira.Issue.prototype.update = function(params, callback) {
     $.each(params, function(k, v){ params[k] = [v] });
     var thisIssue = this,
@@ -217,16 +229,21 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                 ]
             ],
             ['td', {'class': 'status'},
-                ['div', {'class':'b-status'},
-                    $.map(['needinfo', 'open', 'closed'], function(s, i){
-                        var set = TinyJira.issueStatuses[thisIssue.json.status] == s ? ' st-' + s + '-set' : '';
-                        return [['div', {'class': 'st' + (' st-' + s) + set},
-                            ['a', {'class': 'a-st', title: TinyJira.issueStatusTitles[s], onclick: 'return \'' + s + '\'', href: 'javascript:'}, '<i></i>']
-                        ]]
-                    })
-                ]
+                ['a', {'class':'b-issue-label status', title: 'Статус', href: 'javascript:'}, [
+                    [null, '&ensp;'],
+                    ['span', TinyJira.issueStatusTitles[TinyJira.issueStatuses[thisIssue.json.status]]],
+                    [null, '&ensp;']
+                ]]
+//                ['div', {'class':'b-status'},
+//                    $.map(['needinfo', 'open', 'closed'], function(s, i){
+//                        var set = TinyJira.issueStatuses[thisIssue.json.status] == s ? ' st-' + s + '-set' : '';
+//                        return [['div', {'class': 'st' + (' st-' + s) + set},
+//                            ['a', {'class': 'a-st', title: TinyJira.issueStatusTitles[s], onclick: 'return \'' + s + '\'', href: 'javascript:'}, '<i></i>']
+//                        ]]
+//                    })
+//                ]
             ],
-            ['td', {'class': 'progress'}]
+            ['td', {'class': 'progress'}, '&nbsp;']
     ]);
 
     var tr = $(trHTML)
@@ -317,6 +334,43 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             );
             return false;
         })
+        .delegate('click', '.status', function(){
+            thisIssue.startProgress();
+            jQuery.jsonRpc({
+                url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
+                method: 'jira.getAvailableActionsWithFields',
+                params: [TinyJira.jira.auth, thisIssue.json.key],
+                success: function(x){
+                    thisIssue.stopProgress();
+                    if (x.result) {
+                        thisIssue.createForm(4, $.htmlString([
+                                ['h3', 'Изменение статуса'],
+                                ['div', $.map(x.result, function(v, i){
+                                        var id = 'action' + v.workflowAction.id,
+                                            attributes = {
+                                                id: id, name: 'action', type: 'radio',
+                                                value: v.workflowAction.id
+                                            };
+                                        if (i == 0) attributes.checked = 'checked';
+                                        return [
+                                                ['input', attributes],
+                                                ['label', {for: id}, ' ' + v.workflowAction.name],
+                                                [null, '&emsp;']
+                                            ]
+                                    })
+                                ],
+                                ['br'],
+                                ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}, '']
+                            ]),
+                            function(e){
+                                thisIssue.progressWorkflowActionWithComment($('input[name=action]:checked').val(), e.target.form.comment.value);
+                            }
+                        );
+                    }
+                }
+            });
+            return false;
+        })
         .delegate('click', '.description-preview', function(){
             var thisLink = $(this),
                 switchedHTML = thisLink.data('switchedHTML') || $.htmlString('span', 'свернуть');
@@ -350,7 +404,7 @@ TinyJira.Issue.prototype.createForm = function(target, content, onsubmit) {
     var formHTML = $.htmlString('tr', {'class': 'inline-form'},
         ['td', {colspan: '4'}, [
             ['form', {action: '', 'class': ''}, [
-                ['div', content],
+                ['div', {'class': 'content'}, content],
                 ['br'],
                 ['input', {type: 'submit', 'class': 'submit', value: 'Сделать'}],
                 [null, ' или&nbsp;'],
