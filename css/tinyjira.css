@@ -5,8 +5,8 @@
 }
 
 body {
-    background-color: #fff;
-    color: #000000;
+    background-color: #fcfdfe;
+    color: #0a192c;
     font-family: Arial,sans-serif;
     font-size: 0.8em;
     font-size-adjust: none;
@@ -46,16 +46,16 @@ code, input, textarea {
 }
 
 input.text, textarea {
-    border: 1px #999 solid;
+    border: 1px #a3c2eb solid;
 }
 
 a {
-    color: #00e !important;
+    color: #123e78 !important;
     text-decoration: underline;
 }
 
 a:hover {
-    color: #ff643b !important;
+    color: #b82727 !important;
 }
 
 a img {
@@ -117,18 +117,18 @@ h1, .h1, h2, .h2, h3 {
     .b-sup-controls sup a
     {
         /*display: none;*/
-        color: #aaa !important;
+        color: #a3c2eb !important;
     }
 
     .hover .b-sup-controls sup a
     {
         /*display: inline;*/
-        color: #00e !important;
+        color: #123e78 !important;
     }
 
     .hover .b-sup-controls sup a:hover
     {
-        color: #ff643b !important;
+        color: #b82727 !important;
     }
 
 /* @end */
@@ -174,7 +174,7 @@ h1, .h1, h2, .h2, h3 {
 */
 .b-head-line {
     padding: 0.1em 0 0.3em 0.9em;
-    background: #2358a3 url(../i/head-background.gif) repeat scroll 0 50%;
+    background: #123e78 url(../i/head-background.gif) repeat scroll 0 50%;
     -webkit-border-radius: 4px;
     -moz-border-radius: 4px;
 }
@@ -182,22 +182,22 @@ h1, .h1, h2, .h2, h3 {
 .b-head-line h1 {
     font-size: 100%;
     padding-right: 3.5em;
-    color: #fff;
+    color: #fcfdfe;
 }
 
 .b-head-line h1 a.logout
 {
-    color: #999 !important;
+    color: #a3c2eb !important;
 }
 
 td.hover .b-head-line h1 a.logout
 {
-    color: #fff !important;
+    color: #fcfdfe !important;
 }
 
 td .b-head-line h1 a.logout:hover
 {
-    color: #ff643b !important;
+    color: #b82727 !important;
 }
 
 
@@ -288,7 +288,7 @@ td .b-head-line h1 a.logout:hover
 
 .b-issues-table th {
     padding: 0.1em 1em 0.1em 0;
-    border-bottom: 1px solid #000;
+    border-bottom: 1px solid #0a192c;
     font-weight: normal;
 }
 
@@ -298,16 +298,16 @@ td .b-head-line h1 a.logout:hover
 
 .b-issues-table td {
     padding: 0.5em 1em 0.2em 0;
-    border-bottom: 1px solid #fefefe;
+    border-bottom: 1px solid #fcfdfe;
 }
 
 .b-issues-table tr.hover td {
-	/*background-color: #f7f7f7;*/
-    border-bottom: 1px solid #ccc;
+	/*background-color: #cedff5;*/
+    border-bottom: 1px solid #a3c2eb;
 }
 
 .b-issues-table th.progress {
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #fcfdfe;
     padding-right: 0.5em;
 }
 
@@ -318,28 +318,28 @@ td .b-head-line h1 a.logout:hover
 .b-issues-table td.progress,
 tr.hover td.progress,
 .b-issues-table tr.hover td.progress {
-    border-bottom: 1px solid #fff !important;
+    border-bottom: 1px solid #fcfdfe !important;
     padding: 0.7em 0 0.2em 0.5em;
 }
 
 .b-issues-table a.issues-details,
 .b-issues-table a.description-preview {
-    color: #aaa !important;
+    color: #a3c2eb !important;
 }
 
 .b-issues-table tr.hover a.issues-details,
 .b-issues-table tr.hover a.description-preview {
-    color: #00e !important;
+    color: #123e78 !important;
 }
 
 .b-issues-table tr a.issues-details:hover,
 .b-issues-table tr a.description-preview:hover {
-    color: #ff643b !important;
+    color: #b82727 !important;
 }
 
 /* @group alltext */
 .b-issues-table .alltext {
-    line-height: 1.2;
+    line-height: 1.45
 }
 
 .b-issues-table .description {
@@ -349,17 +349,22 @@ tr.hover td.progress,
 
 .b-issues-table a.summary {
     text-decoration: none;
-    color: #000 !important;
-    -webkit-border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
+    color: #0a192c !important;
+    -webkit-border-radius: 0.65em;
+    -moz-border-radius: 0.65em;
+    border: 1px solid #fcfdfe;
 }
 
 .b-issues-table tr.hover .summary {
-    background-color: #f0f0f0;
+    background-color: #cedff5;
+    color: #255594 !important;
+    border-color: #cedff5;
 }
 
 .b-issues-table a.summary:hover {
-    background-color: #ccc;
+    background-color: #a3c2eb;
+    border-color: #a3c2eb;
+    color: #b82727 !important;
 }
 
 .b-issues-table .alltext-descopen .summary {
@@ -374,41 +379,34 @@ tr.hover td.progress,
 .b-issues-table .alltext .assignee,
 .b-issues-table .alltext .components,
 .b-issues-table .alltext .fixversions {
-    -webkit-border-radius: 0.5em;
-    -moz-border-radius: 0.5em;
-    background-color: #f0f0f0;
-    color: #666;
+    -webkit-border-radius: 0.65em;
+    -moz-border-radius: 0.65em;
+    border: 1px solid #cedff5;
+    background-color: #cedff5;
+    color: #255594 !important;
     white-space: nowrap;
+    text-decoration: none;
 }
 
 .b-issues-table tr.hover .alltext .assignee,
 .b-issues-table tr.hover .alltext .components,
 .b-issues-table tr.hover .alltext .fixversions {
-    color: #333;
-}
-
-.b-issues-table tr.hover .alltext .assignee,
-.b-issues-table tr.hover .alltext .components,
-.b-issues-table tr.hover .alltext .fixversions {
-    background-color: #ccc;
-}
-
-.b-issues-table .alltext .assignee a,
-.b-issues-table .alltext .components a,
-.b-issues-table .alltext .fixversions a {
-    color: #333 !important;
+    color: #0a192c !important;
+    background-color: #a3c2eb;
+    border-color: #a3c2eb;
 }
 
 .b-issues-table tr.hover .alltext .assignee a,
 .b-issues-table tr.hover .alltext .components a,
 .b-issues-table tr.hover .alltext .fixversions a {
-    color: #00e !important;
+    color: #123e78 !important;
 }
 
-.b-issues-table tr .alltext .assignee a:hover,
-.b-issues-table tr .alltext .components a:hover,
-.b-issues-table tr .alltext .fixversions a:hover {
-    color: #ff643b !important;
+.b-issues-table tr .alltext .assignee:hover,
+.b-issues-table tr .alltext .components:hover,
+.b-issues-table tr .alltext .fixversions:hover {
+    color: #b82727 !important;
+    border-color: #b82727;
 }
 
 .b-issues-table-short .alltext .assignee,
@@ -423,7 +421,7 @@ tr.hover td.progress,
 /* @group inline-form */
 
 .b-issues-table tr.with-inline-form td {
-    border-bottom: 1px solid #fff;
+    border-bottom: 1px solid #fcfdfe;
 }
 
 .b-issues-table .inline-form-decoration td {
@@ -433,17 +431,17 @@ tr.hover td.progress,
 }
 
 .b-issues-table .inline-form-decoration td.with-inline-form {
-    background-color: #ccc;
+    background-color: #a3c2eb;
 }
 
 .b-issues-table .inline-form td {
     padding: 1em;
-    border-bottom: 1px solid #fff !important;
-    background-color: #f7f7f7;
+    border-bottom: 1px solid #fcfdfe !important;
+    background-color: #cedff5;
 }
 
 .b-issues-table .inline-form td.progress {
-    background-color: #fff;
+    background-color: #fcfdfe;
 }
 
 .b-issues-table .inline-form form h3 {

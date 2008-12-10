@@ -167,28 +167,24 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                 (function(){
                     var result = $.htmlString('a', {'class': 'summary', href: 'javascript:'}, '&ensp;' + $.htmlStringText(thisIssue.json.summary) + '&ensp;');
 
-                    result += ' ' + $.htmlString('span', {'class':'assignee', title: 'Исполнитель'}, [
+                    result += ' ' + $.htmlString('a', {'class':'assignee assignee-change', title: 'Исполнитель', href: 'javascript:'}, [
                             [null, '&nbsp;&#9786;'],
-                            ['a', {'class':'b-pseudo-link assignee-change', href: 'javascript:'}, ['span', thisIssue.json.assignee.login || thisIssue.json.assignee]],
+                            ['span', thisIssue.json.assignee.login || thisIssue.json.assignee],
                             [null, '&ensp;']
                         ]);
 
                     if (thisIssue.json.components && thisIssue.json.components.length > 0) {
-                        result += ' ' + $.htmlString('span', {'class':'components', title: 'Компоненты'}, [
+                        result += ' ' + $.htmlString('span', {'class':'components components-change', title: 'Компоненты'}, [
                                 [null, '&nbsp;&there4;'],
-                                ['a', {'class':'b-pseudo-link components-change', href: 'javascript:'}, ['span',
-                                    $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')
-                                ]],
+                                ['span', $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')],
                                 [null, '&ensp;']
                             ]);
                     }
 
                     if (thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0) {
-                        result += ' ' + $.htmlString('span', {'class':'fixversions', title: 'Версии'}, [
+                        result += ' ' + $.htmlString('span', {'class':'fixversions fixversions-change', title: 'Версии'}, [
                                 [null, '&ensp;&beta; '],
-                                ['a', {'class':'b-pseudo-link fixversions-change', href: 'javascript:'}, ['span',
-                                    $.map(thisIssue.json.fixVersions, function(v){ return v.name }).join(', ')
-                                ]],
+                                ['span', $.map(thisIssue.json.fixVersions, function(v){ return v.name }).join(', ')],
                                 [null, '&ensp;']
                             ]);
                     }
