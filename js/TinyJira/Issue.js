@@ -165,16 +165,16 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             ['td',
                 {'class': 'alltext' + (thisIssue.json.description ? ' alltext-descclosed' : '')},
                 (function(){
-                    var result = $.htmlString('a', {'class': 'summary', href: 'javascript:'}, '&ensp;' + $.htmlStringText(thisIssue.json.summary) + '&ensp;');
+                    var result = $.htmlString('a', {'class': 'b-issue-label summary', href: 'javascript:'}, '&ensp;' + $.htmlStringText(thisIssue.json.summary) + '&ensp;');
 
-                    result += ' ' + $.htmlString('a', {'class':'assignee assignee-change', title: 'Исполнитель', href: 'javascript:'}, [
+                    result += ' ' + $.htmlString('a', {'class':'b-issue-label assignee', title: 'Исполнитель', href: 'javascript:'}, [
                             [null, '&nbsp;&#9786;'],
                             ['span', thisIssue.json.assignee.login || thisIssue.json.assignee],
                             [null, '&ensp;']
                         ]);
 
                     if (thisIssue.json.components && thisIssue.json.components.length > 0) {
-                        result += ' ' + $.htmlString('span', {'class':'components components-change', title: 'Компоненты'}, [
+                        result += ' ' + $.htmlString('span', {'class':'b-issue-label components', title: 'Компоненты'}, [
                                 [null, '&nbsp;&there4;'],
                                 ['span', $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')],
                                 [null, '&ensp;']
@@ -182,7 +182,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                     }
 
                     if (thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0) {
-                        result += ' ' + $.htmlString('span', {'class':'fixversions fixversions-change', title: 'Версии'}, [
+                        result += ' ' + $.htmlString('span', {'class':'b-issue-label fixversions', title: 'Версии'}, [
                                 [null, '&ensp;&beta; '],
                                 ['span', $.map(thisIssue.json.fixVersions, function(v){ return v.name }).join(', ')],
                                 [null, '&ensp;']
@@ -306,7 +306,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             );
             return false;
         })
-        .delegate('click', '.assignee-change', function(){
+        .delegate('click', '.assignee', function(){
             thisIssue.createForm(1, $.htmlString([
                     ['h3', 'Изменение исполнителя'],
                     ['input', {name: 'assignee', type: 'text', value: thisIssue.json.assignee.login || thisIssue.json.assignee, 'class': 'text', style: 'width: 100%;'}],

@@ -281,6 +281,34 @@ td .b-head-line h1 a.logout:hover
 }
 /* @end */
 
+/* @group b-issue-label */
+.b-issue-label
+{
+    -webkit-border-radius: 0.65em;
+    -moz-border-radius: 0.65em;
+    border: 1px solid #[% colors.submain_background %];
+    background-color: #[% colors.submain_background %];
+    color: #[% colors.submain %] !important;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+tr.hover .b-issue-label
+{
+    color: #[% colors.main %] !important;
+    background-color: #[% colors.submain_background2 %];
+    border-color: #[% colors.submain_background2 %];
+}
+
+.b-issue-label:hover,
+tr.hover .b-issue-label:hover
+{
+    color: #[% colors.link_hover %] !important;
+    border-color: #[% colors.link_hover %];
+}
+/* @end */
+
+
 /* @group b-issues-table */
 .b-issues-table table {
 	width: 100%;
@@ -348,11 +376,10 @@ tr.hover td.progress,
 }
 
 .b-issues-table a.summary {
-    text-decoration: none;
+    white-space: normal;
     color: #[% colors.main %] !important;
-    -webkit-border-radius: 0.65em;
-    -moz-border-radius: 0.65em;
-    border: 1px solid #[% colors.main_background %];
+    background-color: #[% colors.main_background %];
+    border-color: #[% colors.main_background %];
 }
 
 .b-issues-table tr.hover .summary {
@@ -374,39 +401,6 @@ tr.hover td.progress,
 
 .b-issues-table .alltext-descopen .description {
     display: block;
-}
-
-.b-issues-table .alltext .assignee,
-.b-issues-table .alltext .components,
-.b-issues-table .alltext .fixversions {
-    -webkit-border-radius: 0.65em;
-    -moz-border-radius: 0.65em;
-    border: 1px solid #[% colors.submain_background %];
-    background-color: #[% colors.submain_background %];
-    color: #[% colors.submain %] !important;
-    white-space: nowrap;
-    text-decoration: none;
-}
-
-.b-issues-table tr.hover .alltext .assignee,
-.b-issues-table tr.hover .alltext .components,
-.b-issues-table tr.hover .alltext .fixversions {
-    color: #[% colors.main %] !important;
-    background-color: #[% colors.submain_background2 %];
-    border-color: #[% colors.submain_background2 %];
-}
-
-.b-issues-table tr.hover .alltext .assignee a,
-.b-issues-table tr.hover .alltext .components a,
-.b-issues-table tr.hover .alltext .fixversions a {
-    color: #[% colors.link %] !important;
-}
-
-.b-issues-table tr .alltext .assignee:hover,
-.b-issues-table tr .alltext .components:hover,
-.b-issues-table tr .alltext .fixversions:hover {
-    color: #[% colors.link_hover %] !important;
-    border-color: #[% colors.link_hover %];
 }
 
 .b-issues-table-short .alltext .assignee,

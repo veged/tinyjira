@@ -281,6 +281,34 @@ td .b-head-line h1 a.logout:hover
 }
 /* @end */
 
+/* @group b-issue-label */
+.b-issue-label
+{
+    -webkit-border-radius: 0.65em;
+    -moz-border-radius: 0.65em;
+    border: 1px solid #cedff5;
+    background-color: #cedff5;
+    color: #255594 !important;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+tr.hover .b-issue-label
+{
+    color: #0a192c !important;
+    background-color: #a3c2eb;
+    border-color: #a3c2eb;
+}
+
+.b-issue-label:hover,
+tr.hover .b-issue-label:hover
+{
+    color: #b82727 !important;
+    border-color: #b82727;
+}
+/* @end */
+
+
 /* @group b-issues-table */
 .b-issues-table table {
 	width: 100%;
@@ -348,11 +376,10 @@ tr.hover td.progress,
 }
 
 .b-issues-table a.summary {
-    text-decoration: none;
+    white-space: normal;
     color: #0a192c !important;
-    -webkit-border-radius: 0.65em;
-    -moz-border-radius: 0.65em;
-    border: 1px solid #fcfdfe;
+    background-color: #fcfdfe;
+    border-color: #fcfdfe;
 }
 
 .b-issues-table tr.hover .summary {
@@ -374,39 +401,6 @@ tr.hover td.progress,
 
 .b-issues-table .alltext-descopen .description {
     display: block;
-}
-
-.b-issues-table .alltext .assignee,
-.b-issues-table .alltext .components,
-.b-issues-table .alltext .fixversions {
-    -webkit-border-radius: 0.65em;
-    -moz-border-radius: 0.65em;
-    border: 1px solid #cedff5;
-    background-color: #cedff5;
-    color: #255594 !important;
-    white-space: nowrap;
-    text-decoration: none;
-}
-
-.b-issues-table tr.hover .alltext .assignee,
-.b-issues-table tr.hover .alltext .components,
-.b-issues-table tr.hover .alltext .fixversions {
-    color: #0a192c !important;
-    background-color: #a3c2eb;
-    border-color: #a3c2eb;
-}
-
-.b-issues-table tr.hover .alltext .assignee a,
-.b-issues-table tr.hover .alltext .components a,
-.b-issues-table tr.hover .alltext .fixversions a {
-    color: #123e78 !important;
-}
-
-.b-issues-table tr .alltext .assignee:hover,
-.b-issues-table tr .alltext .components:hover,
-.b-issues-table tr .alltext .fixversions:hover {
-    color: #b82727 !important;
-    border-color: #b82727;
 }
 
 .b-issues-table-short .alltext .assignee,
