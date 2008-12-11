@@ -93,7 +93,29 @@ TinyJira.Issue.prototype.setStatus = function(status, comment) {
 };
 
 TinyJira.Issue.prototype.addComment = function(comment, callback) {
-    this.update({comment: comment}, callback);
+    var thisIssue = this,
+        jsonRpcOptions = {
+            url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
+            method: TinyJira.jira.soap + '.addComment',
+            params: [TinyJira.jira.auth, thisIssue.json.key, {body: comment, author: TinyJira.user.login}],
+            success: function(x){
+                if (callback) {
+                    callback.apply(this, arguments);
+                } else {
+                    thisIssue.reinit();
+                }
+            }
+        };
+
+    if (!callback) {
+        thisIssue.startProgress();
+        jsonRpcOptions.complete = function(){
+            thisIssue.stopProgress();
+            thisIssue.hideForm();
+        };
+    }
+
+    jQuery.jsonRpc(jsonRpcOptions);
 };
 
 TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
