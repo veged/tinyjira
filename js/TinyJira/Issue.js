@@ -154,7 +154,10 @@ TinyJira.Issue.prototype.progressWorkflowActionWithComment = function(action, co
 };
 
 TinyJira.Issue.prototype.update = function(params, callback) {
-    $.each(params, function(k, v){ params[k] = [v] });
+    $.each(params, function(k, v){
+        params[k] = [v];
+        if (k == 'comment' && v == '') delete params.comment;
+    });
     var thisIssue = this,
         jsonRpcOptions = {
             url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
@@ -349,9 +352,12 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
             thisIssue.createForm(1, $.htmlString([
                     ['h3', 'Изменение исполнителя'],
                     ['input', {name: 'assignee', type: 'text', value: thisIssue.json.assignee.login || thisIssue.json.assignee, 'class': 'text', style: 'width: 100%;'}],
+                    ['br'], ['br'],
+                    ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}, '']
                 ]),
                 function(e){ thisIssue.update({
-                    assignee: e.target.form.assignee.value
+                    assignee: e.target.form.assignee.value,
+                    comment: e.target.form.comment.value
                 })}
             );
             return false;
