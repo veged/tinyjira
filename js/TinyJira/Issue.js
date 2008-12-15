@@ -382,7 +382,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                                         if (i == 0) attributes.checked = 'checked';
                                         return [
                                                 ['input', attributes],
-                                                ['label', {for: id}, ' ' + v.workflowAction.name],
+                                                ['label', {'for': id}, ' ' + v.workflowAction.name],
                                                 [null, '&emsp;']
                                             ]
                                     })
