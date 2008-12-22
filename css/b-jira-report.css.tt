@@ -1,0 +1,40 @@
+/* JiraReport (begin) */
+    .b-jira-report
+    {
+        padding: 0.3em 0 2em 1.5em;
+    }
+
+    .b-jira-report .content,
+    .b-jira-report-opened .report
+    {
+        display: none;
+    }
+
+    .b-jira-report-opened .content
+    {
+        display: block;
+    }
+
+    .b-jira-report .h-jira-report
+    {
+        width: 100%;
+    }
+
+    .b-jira-report h2
+    {
+        font-weight: bold;
+        padding-bottom: 1em;
+    }
+
+    .b-jira-report label
+    {
+        display: block;
+    }
+
+    .b-jira-report .message
+    {
+        background-color: #[% colors.submain_background %];
+        padding: 0.5em;
+        margin-top: 1em;
+    }
+/* JiraReport (end) */
