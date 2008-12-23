@@ -135,6 +135,8 @@ $(document).ready(function(){
         });
 
     TinyJira.init(function(){
-        (new TinyJira.JiraReport()).toDOM($(TinyJira.layout.content));
+        $(TinyJira.layout.content).each(function(){
+            (new TinyJira.JiraReport()).toDOM(this);
+        });
     });
 });
