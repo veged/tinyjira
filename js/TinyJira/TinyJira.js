@@ -62,5 +62,36 @@ var TinyJira = {
         var newDOM = this.toDOM();
         oldDOM.hide().after(newDOM);
         setTimeout(function(){oldDOM.remove()}, 1);
+    },
+    createIssue: function(params, callbacks) {
+        if ($.isFunction(callbacks)) callbacks = {success: callbacks};
+        jsonRpcOptions = {
+            url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
+            method: TinyJira.jira.soap + '.createIssue',
+            params: [TinyJira.jira.auth, params],
+            success: function(x){
+                if (!x.result) {
+                    var _this = this,
+                        _arguments = arguments;
+                    $.each(['complete', 'error'], function(i, v) {
+                        if (callbacks[v]) callbacks[v].apply(_this, _arguments);
+                    });
+                } else {
+                    var newIssue = new TinyJira.Issue(x.result),
+                        updateCallbacks = {};
+                    $.each(['complete', 'success', 'error'], function(i, v) {
+                        if (callbacks[v]) updateCallbacks[v] = callbacks[v];
+                    });
+                    newIssue.update({customfield_10380: 'tinyjira'}, updateCallbacks);
+                }
+            }
+        };
+
+        $.each(['beforeSend', 'error'], function(i, v) {
+            if (callbacks[v]) jsonRpcOptions[v] = callbacks[v];
+        });
+
+        jQuery.jsonRpc(jsonRpcOptions);
+
     }
 };

@@ -28,30 +28,31 @@ TinyJira.JiraReport.prototype.toDOM = function(parentNode) {
         .delegate('click', '.submit', function(e){
             e.preventDefault();
             thisJiraReport.startProgress();
-            jQuery.jsonRpc({
-                url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
-                method: 'jira.createIssue',
-                params: [TinyJira.jira.auth, TinyJira.JiraReport.project, '3', {javaClass: 'java.util.HashMap', map: {
-                    summary: [e.target.form.summary.value],
-                    description: [e.target.form.description.value],
-                    priority: ['3'],
-                    assignee: ['-1'],
-                    reporter: [TinyJira.user.login]
-                }}, null],
-                complete: function(){ thisJiraReport.stopProgress() },
-                success: function(x){
-                    if (!x.result) {
-                        thisJiraReport.showMessage('Что-то пошло не так... попробуйте ещё раз.');
-                    } else {
-                        thisJiraReport.close();
-                        thisJiraReport.showMessage($.htmlString([
-                            [null, 'Успешно создан '],
-                            ['a', {href: TinyJira.jira.url + x.result.issue.key}, x.result.issue.key],
-                            [null, '.']
-                        ]));
+            TinyJira.createIssue({
+                    project: TinyJira.JiraReport.project,
+                    type: '4',
+                    summary: e.target.form.summary.value,
+                    description: e.target.form.description.value,
+                    priority: '3',
+                    assignee: '-1',
+                    reporter: TinyJira.user.login
+                },
+                {
+                    complete: function(){ thisJiraReport.stopProgress() },
+                    success: function(x){
+                        if (!x.result.issue) {
+                            thisJiraReport.showMessage('Что-то пошло не так... попробуйте ещё раз.');
+                        } else {
+                            thisJiraReport.close();
+                            thisJiraReport.showMessage($.htmlString([
+                                [null, 'Успешно создан '],
+                                ['a', {href: TinyJira.jira.url + x.result.issue.key}, x.result.issue.key],
+                                [null, '.']
+                            ]));
+                        }
                     }
                 }
-            });
+            );
             return false;
         });
     thisJiraReport.dom = dom;

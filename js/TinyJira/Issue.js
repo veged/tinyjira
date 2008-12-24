@@ -2,8 +2,16 @@
  * Issue
  */
 TinyJira.Issue = function(json) {
+    var thisIssue = this;
+
     this.json = json;
     this.inProgress = false;
+
+    this.updateDefaultCallbacks = {
+        beforeSend: function(x){ thisIssue.startProgress() },
+        complete: function(x){ thisIssue.stopProgress() },
+        success: function(x){ if (x.result.issue) thisIssue.reinit(x.result.issue) }
+    };
 };
 
 TinyJira.issueStatuses = {
@@ -153,7 +161,7 @@ TinyJira.Issue.prototype.progressWorkflowActionWithComment = function(action, co
     });
 };
 
-TinyJira.Issue.prototype.update = function(params, callback) {
+TinyJira.Issue.prototype.update = function(params, callbacks) {
     $.each(params, function(k, v){
         params[k] = [v];
         if (k == 'comment' && v == '') delete params.comment;
@@ -163,18 +171,14 @@ TinyJira.Issue.prototype.update = function(params, callback) {
             url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
             method: 'jira.updateIssue',
             params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: params }, true],
-            success: function(x){
-                if (callback) {
-                    callback.apply(this, arguments);
-                } else {
-                    if (x.result.issue) thisIssue.reinit(x.result.issue);
-                }
-            }
         };
 
-    if (!callback) {
-        thisIssue.startProgress();
-        jsonRpcOptions.complete = function(){ thisIssue.stopProgress() };
+    if ($.isFunction(callbacks)) callbacks = {success: callbacks};
+
+    if (callbacks) {
+        $.extend(jsonRpcOptions, callbacks);
+    } else {
+        $.extend(jsonRpcOptions, thisIssue.updateDefaultCallbacks);
     }
 
     jQuery.jsonRpc(jsonRpcOptions);
