@@ -2,6 +2,11 @@
  * Login
  */
 TinyJira.Login = function() {
+    var thisLogin = this;
+    $().bind('TinyJira:login', function(e, auth){
+        thisLogin.dom.hide();
+        setTimeout(function(){thisLogin.dom.remove()}, 1);
+    });
 };
 
 TinyJira.Login.prototype.toHTML = function() {
@@ -40,12 +45,7 @@ TinyJira.Login.prototype.toDOM = function(parentNode) {
                     if (!x.result) {
                         thisLogin.showMessage('Что-то пошло не так... попробуйте ещё раз.');
                     } else {
-                        thisLogin.dom.hide();
-                        setTimeout(function(){thisLogin.dom.remove()}, 1);
-
-                        $.cookie('jira-auth', x.result);
-                        TinyJira.jira.auth = x.result;
-                        TinyJira.getCurrentUser();
+                        $().trigger('TinyJira:login', [x.result]);
                     }
                 }
             });
@@ -54,7 +54,7 @@ TinyJira.Login.prototype.toDOM = function(parentNode) {
     thisLogin.dom = dom;
 
     if (parentNode) $(parentNode).append(dom);
-    
+
     return dom;
 };
 

@@ -426,7 +426,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
 TinyJira.Issue.prototype.createForm = function(target, content, onsubmit) {
     if (!this.dom) return;
     if (this.form) this.hideForm();
-    
+
     var thisIssue = this;
 
     var decorationHTML = $.htmlString('tr', {'class': 'inline-form-decoration'}, $.map([1, 2, 3, 4], function(i){
@@ -444,7 +444,7 @@ TinyJira.Issue.prototype.createForm = function(target, content, onsubmit) {
             ]],
         ]]
     );
-    
+
     var formTr = $(formHTML),
         decorationTr = $(decorationHTML);
 

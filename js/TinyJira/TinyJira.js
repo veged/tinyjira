@@ -23,6 +23,13 @@ var TinyJira = {
             thisTinyJira.jira.url = prompt('Какой адрес у JIRA?', 'http://jira/');
             $.cookie('jira-url', thisTinyJira.jira.url);
         }
+
+        $().bind('TinyJira:login', function(e, auth){
+            $.cookie('jira-auth', auth);
+            thisTinyJira.jira.auth = auth;
+            thisTinyJira.getCurrentUser();
+        });
+
         jQuery.jsonRpc({
             url: thisTinyJira.jira.url + 'plugins/servlet/rpc/json',
             method: 'jira.getSoapService',
@@ -36,7 +43,9 @@ var TinyJira = {
                         params: [thisTinyJira.jira.auth],
                         success: function(x){
                             if (!x.result) {
-                                (new thisTinyJira.Login()).toDOM($(thisTinyJira.layout.content));
+                                $(TinyJira.layout.content).each(function(){
+                                    (new TinyJira.Login()).toDOM(this);
+                                });
                             } else {
                                 $(thisTinyJira.layout.head)
                                     .html($.htmlString([
