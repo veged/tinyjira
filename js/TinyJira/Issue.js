@@ -418,8 +418,10 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                                                 function(vv){ return vv.id == v.id ? true : null}
                                             ).length > 0) attributes.checked = 'checked';
                                         return [
-                                                ['input', attributes],
-                                                ['label', {'for': id}, ' ' + v.name],
+                                                ['label', {'for': id, title: v.description}, [
+                                                    ['input', attributes],
+                                                    [null, ' ' + v.name]
+                                                ]],
                                                 [null, '&emsp;']
                                             ]
                                     })
@@ -460,8 +462,10 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                                                 function(vv){ return vv.id == v.id ? true : null}
                                             ).length > 0) attributes.checked = 'checked';
                                         return [
-                                                ['input', attributes],
-                                                ['label', {'for': id}, ' ' + v.name],
+                                                ['label', {'for': id, title: v.description}, [
+                                                    ['input', attributes],
+                                                    [null, ' ' + v.name]
+                                                ]],
                                                 [null, '&emsp;']
                                             ]
                                     })
@@ -498,8 +502,10 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                                             };
                                         if (i == 0) attributes.checked = 'checked';
                                         return [
-                                                ['input', attributes],
-                                                ['label', {'for': id}, ' ' + v.workflowAction.name],
+                                                ['label', {'for': id}, [
+                                                    ['input', attributes],
+                                                    [null, ' ' + v.workflowAction.name]
+                                                ]],
                                                 [null, '&emsp;']
                                             ]
                                     })

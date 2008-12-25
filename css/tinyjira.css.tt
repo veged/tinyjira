@@ -459,6 +459,10 @@ tr.hover td.progress,
     font-size: 100%;
     padding-bottom: 0.5em;
 }
+
+.b-issues-table .inline-form form label {
+    white-space: nowrap;
+}
 /* @end */
 
 /* @group b-priority */
