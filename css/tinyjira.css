@@ -139,7 +139,7 @@ h1, .h1, h2, .h2, h3 {
 }
 
 .b-head td {
-	width: 2%;
+    width: 2%;
 }
 
 .b-head .l {
@@ -157,7 +157,7 @@ h1, .h1, h2, .h2, h3 {
 }
 /*
 .b-head .service .b-login {
-	height: 1em;
+    height: 1em;
 }
 
 .b-head .service .b-user {
@@ -293,7 +293,8 @@ td .b-head-line h1 a.logout:hover
     text-decoration: none;
 }
 
-tr.hover .b-issue-label
+tr.hover .b-issue-label,
+tr.with-inline-form .b-issue-label
 {
     color: #0a192c !important;
     background-color: #a3c2eb;
@@ -311,7 +312,7 @@ tr.hover .b-issue-label:hover
 
 /* @group b-issues-table */
 .b-issues-table table {
-	width: 100%;
+    width: 100%;
 }
 
 .b-issues-table th {
@@ -330,7 +331,7 @@ tr.hover .b-issue-label:hover
 }
 
 .b-issues-table tr.hover td {
-	/*background-color: #cedff5;*/
+    /*background-color: #cedff5;*/
     border-bottom: 1px solid #a3c2eb;
 }
 
@@ -356,7 +357,9 @@ tr.hover td.progress,
 }
 
 .b-issues-table tr.hover a.issues-details,
-.b-issues-table tr.hover a.description-preview {
+.b-issues-table tr.with-inline-form a.issues-details,
+.b-issues-table tr.hover a.description-preview,
+.b-issues-table tr.with-inline-form a.description-preview {
     color: #123e78 !important;
 }
 
@@ -382,7 +385,8 @@ tr.hover td.progress,
     border-color: #fcfdfe;
 }
 
-.b-issues-table tr.hover .summary {
+.b-issues-table tr.hover .summary,
+.b-issues-table tr.with-inline-form .summary {
     background-color: #cedff5;
     color: #255594 !important;
     border-color: #cedff5;
@@ -410,6 +414,13 @@ tr.hover td.progress,
     display: none;
 }
 
+.b-issues-table .no-fixversions {
+    display: none;
+}
+.b-issues-table-long tr.hover .no-fixversions,
+.b-issues-table-long tr.with-inline-form .no-fixversions {
+    display: inline;
+}
 /* @end */
 
 /* @group inline-form */
@@ -419,8 +430,8 @@ tr.hover td.progress,
 }
 
 .b-issues-table .inline-form-decoration td {
-	font-size: 1px;
-	height: 5px;
+    font-size: 1px;
+    height: 5px;
     border-bottom: none !important;
 }
 
@@ -450,7 +461,7 @@ tr.hover td.progress,
     width: 80px;
 }
 .b-priority .pr {
-	float: left;
+    float: left;
 }
 
 .pr a,
@@ -466,37 +477,44 @@ tr.hover td.progress,
     background-position: 16px 16px;
 }
 
-tr.hover .b-priority i {
+tr.hover .b-priority i,
+tr.with-inline-form .b-priority i {
     background-position: 0 0;
 }
 
 td.hover .b-priority i,
-tr.hover td.hover .b-priority i {
+tr.hover td.hover .b-priority i,
+tr.with-inline-form td.hover .b-priority i {
     background-position: 0 -16px;
 }
 
 .pr-trivial-set a i,
-tr.hover .pr-trivial-set a i {
+tr.hover .pr-trivial-set a i,
+tr.with-inline-form .pr-trivial-set a i {
     background-position: -16px 0;
 }
 
 .pr-minor-set a i,
-tr.hover .pr-minor-set a i {
+tr.hover .pr-minor-set a i,
+tr.with-inline-form .pr-minor-set a i {
     background-position: -32px 0;
 }
 
 .pr-normal-set a i,
-tr.hover .pr-normal-set a i {
+tr.hover .pr-normal-set a i,
+tr.with-inline-form .pr-normal-set a i {
     background-position: -48px 0;
 }
 
 .pr-critical-set a i,
-tr.hover .pr-critical-set a i {
+tr.hover .pr-critical-set a i.
+tr.with-inline-form .pr-critical-set a i {
     background-position: -64px 0;
 }
 
 .pr-blocker-set a i,
-tr.hover .pr-blocker-set a i {
+tr.hover .pr-blocker-set a i.
+tr.with-inline-form .pr-blocker-set a i {
     background-position: -80px 0;
 }
 
@@ -569,7 +587,7 @@ tr.hover .pr-blocker a:hover i {
     width: 48px;
 }
 .b-status .st {
-	float: left;
+    float: left;
 }
 
 .st a,
@@ -585,7 +603,8 @@ tr.hover .pr-blocker a:hover i {
     background-position: 16px 16px;
 }
 
-tr.hover .b-status i {
+tr.hover .b-status i,
+tr.with-inline-form .b-status i {
     background-position: 0 0;
 }
 

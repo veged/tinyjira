@@ -10,7 +10,7 @@ TinyJira.Issue = function(json) {
     this.updateDefaultCallbacks = {
         beforeSend: function(x){ thisIssue.startProgress() },
         complete: function(x){ thisIssue.stopProgress() },
-        success: function(x){ if (x.result.issue) thisIssue.reinit(x.result.issue) }
+        success: function(x){ if (x.result) thisIssue.reinit(x.result) }
     };
 };
 
@@ -56,9 +56,7 @@ TinyJira.issuePriorityTitles = {
 };
 
 TinyJira.Issue.prototype.setPriority = function(priority, comment) {
-    var params = {priority: String(priority)};
-    if (comment && comment != '') params.comment = comment;
-    this.update(params);
+    this.updateWithComment({priority: String(priority)}, comment);
 };
 
 TinyJira.Issue.prototype.setStatus = function(status, comment) {
@@ -162,15 +160,17 @@ TinyJira.Issue.prototype.progressWorkflowActionWithComment = function(action, co
 };
 
 TinyJira.Issue.prototype.update = function(params, callbacks) {
+    var soapParams = [];
     $.each(params, function(k, v){
-        params[k] = [v];
-        if (k == 'comment' && v == '') delete params.comment;
+        if (!(k == 'comment' && v == '')) {
+            soapParams[soapParams.length] = {id: k, values: ($.isArray(v) ? v : [v])};
+        }
     });
     var thisIssue = this,
         jsonRpcOptions = {
             url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
-            method: 'jira.updateIssue',
-            params: [TinyJira.jira.auth, thisIssue.json.key, { javaClass: "java.util.HashMap", map: params }, true],
+            method: TinyJira.jira.soap + '.updateIssue',
+            params: [TinyJira.jira.auth, thisIssue.json.key, soapParams],
         };
 
     if ($.isFunction(callbacks)) callbacks = {success: callbacks};
@@ -182,6 +182,22 @@ TinyJira.Issue.prototype.update = function(params, callbacks) {
     }
 
     jQuery.jsonRpc(jsonRpcOptions);
+};
+
+TinyJira.Issue.prototype.updateWithComment = function(params, comment, callbacks) {
+    var thisIssue = this;
+    thisIssue.update(params, {
+        success: function(x) {
+            thisIssue.json = x.result;
+            if (comment && comment != '') {
+                thisIssue.addComment(comment);
+            } else {
+                thisIssue.reinit();
+            }
+        },
+        beforeSend: thisIssue.updateDefaultCallbacks.beforeSend,
+        complete: thisIssue.updateDefaultCallbacks.complete
+    });
 };
 
 TinyJira.Issue.prototype.reinit = function(){
@@ -222,13 +238,20 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                             ]);
                     }
 
-                    if (thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0) {
-                        result += ' ' + $.htmlString('span', {'class':'b-issue-label fixversions', title: 'Версии'}, [
-                                [null, '&ensp;&beta; '],
-                                ['span', $.map(thisIssue.json.fixVersions, function(v){ return v.name }).join(', ')],
-                                [null, '&ensp;']
-                            ]);
-                    }
+                    var hasFixVersions = thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0;
+                    result += ' ' + $.htmlString('a', {
+                            'class': 'b-issue-label fixversions' + (!hasFixVersions ? ' no-fixversions' : ''),
+                            title: 'Версии',
+                            href: 'javascript:'
+                        },
+                        [
+                            [null, '&ensp;&beta;'],
+                            (hasFixVersions ?
+                                ['span', ' ' + $.map(thisIssue.json.fixVersions, function(v){ return v.name }).join(', ')] :
+                                []
+                            ),
+                            [null, '&ensp;']
+                        ]);
 
                     if (thisIssue.json.description) {
                         var previewLength = (function(x){
@@ -359,11 +382,53 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                     ['br'], ['br'],
                     ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}, '']
                 ]),
-                function(e){ thisIssue.update({
-                    assignee: e.target.form.assignee.value,
-                    comment: e.target.form.comment.value
-                })}
+                function(e){ thisIssue.updateWithComment(
+                    {assignee: e.target.form.assignee.value},
+                    e.target.form.comment.value
+                )}
             );
+            return false;
+        })
+        .delegate('click', '.fixversions', function(){
+            thisIssue.startProgress();
+            jQuery.jsonRpc({
+                url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
+                method: TinyJira.jira.soap + '.getVersions',
+                params: [TinyJira.jira.auth, thisIssue.json.project],
+                success: function(x){
+                    thisIssue.stopProgress();
+                    if (x.result) {
+                        thisIssue.createForm(2, $.htmlString([
+                                ['h3', 'Изменение версий'],
+                                ['div', $.map(x.result, function(v, i){
+                                        if (v.archived) return null;
+                                        var id = 'fixversion' + v.id,
+                                            attributes = {
+                                                id: id, name: 'fixversions', type: 'checkbox',
+                                                value: v.id
+                                            };
+                                        if ($.map(
+                                                thisIssue.json.fixVersions,
+                                                function(vv){ return vv.id == v.id ? true : null}
+                                            ).length > 0) attributes.checked = 'checked';
+                                        return [
+                                                ['input', attributes],
+                                                ['label', {'for': id}, ' ' + v.name],
+                                                [null, '&emsp;']
+                                            ]
+                                    })
+                                ],
+                                ['br'],
+                                ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}, '']
+                            ]),
+                            function(e){ thisIssue.updateWithComment(
+                                {fixVersions: $.map(e.target.form.fixversions, function(i) { return i.checked ? i.value : null })},
+                                e.target.form.comment.value
+                            )}
+                        );
+                    }
+                }
+            });
             return false;
         })
         .delegate('click', '.status', function(){
