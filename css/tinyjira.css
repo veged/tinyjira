@@ -282,7 +282,9 @@ td .b-head-line h1 a.logout:hover
 /* @end */
 
 /* @group b-issue-label */
-.b-issue-label
+.b-issue-label,
+tr.hover .b-issue-label-empty,
+tr.with-inline-form .b-issue-label-empty
 {
     -webkit-border-radius: 0.65em;
     -moz-border-radius: 0.65em;
@@ -306,6 +308,13 @@ tr.hover .b-issue-label:hover
 {
     color: #b82727 !important;
     border-color: #b82727;
+}
+
+.b-issue-label-empty
+{
+    border: 1px solid #fcfdfe;
+    background-color: #fcfdfe;
+    color: #fcfdfe !important;
 }
 /* @end */
 
@@ -368,6 +377,9 @@ tr.hover td.progress,
     color: #b82727 !important;
 }
 
+.b-issues-table-long .description-preview {
+    display: block;
+}
 /* @group alltext */
 .b-issues-table .alltext {
     line-height: 1.45
@@ -414,13 +426,6 @@ tr.hover td.progress,
     display: none;
 }
 
-.b-issues-table .no-fixversions {
-    display: none;
-}
-.b-issues-table-long tr.hover .no-fixversions,
-.b-issues-table-long tr.with-inline-form .no-fixversions {
-    display: inline;
-}
 /* @end */
 
 /* @group inline-form */

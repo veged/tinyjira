@@ -8,7 +8,6 @@ TinyJira.Issue = function(json) {
     this.inProgress = false;
 
     this.updateDefaultCallbacks = {
-        beforeSend: function(x){ thisIssue.startProgress() },
         complete: function(x){ thisIssue.stopProgress() },
         success: function(x){ if (x.result) thisIssue.reinit(x.result) }
     };
@@ -149,6 +148,7 @@ TinyJira.Issue.prototype.progressWorkflowAction = function(action, callback) {
 
 TinyJira.Issue.prototype.progressWorkflowActionWithComment = function(action, comment) {
     var thisIssue = this;
+    thisIssue.startProgress();
     thisIssue.progressWorkflowAction(action, function(x){
         thisIssue.json = x.result;
         if (comment && comment != '') {
@@ -173,6 +173,8 @@ TinyJira.Issue.prototype.update = function(params, callbacks) {
             params: [TinyJira.jira.auth, thisIssue.json.key, soapParams],
         };
 
+    thisIssue.startProgress();
+
     if ($.isFunction(callbacks)) callbacks = {success: callbacks};
 
     if (callbacks) {
@@ -186,6 +188,7 @@ TinyJira.Issue.prototype.update = function(params, callbacks) {
 
 TinyJira.Issue.prototype.updateWithComment = function(params, comment, callbacks) {
     var thisIssue = this;
+    thisIssue.startProgress();
     thisIssue.update(params, {
         success: function(x) {
             thisIssue.json = x.result;
@@ -195,7 +198,6 @@ TinyJira.Issue.prototype.updateWithComment = function(params, comment, callbacks
                 thisIssue.reinit();
             }
         },
-        beforeSend: thisIssue.updateDefaultCallbacks.beforeSend,
         complete: thisIssue.updateDefaultCallbacks.complete
     });
 };
@@ -230,17 +232,21 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                             [null, '&ensp;']
                         ]);
 
-                    if (thisIssue.json.components && thisIssue.json.components.length > 0) {
-                        result += ' ' + $.htmlString('span', {'class':'b-issue-label components', title: 'Компоненты'}, [
-                                [null, '&nbsp;&there4;'],
-                                ['span', $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')],
-                                [null, '&ensp;']
-                            ]);
-                    }
+                    var hasComponents = thisIssue.json.components && thisIssue.json.components.length > 0;
+                    result += ' ' + $.htmlString('a', {
+                            'class': 'b-issue-label components' + (!hasComponents ? ' b-issue-label-empty' : ''),
+                            title: 'Компоненты',
+                            href: 'javascript:'
+                        },
+                        [
+                            [null, '&nbsp;&there4;'],
+                            (hasComponents ? ['span', $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')] : []),
+                            [null, (hasComponents ? '&ensp;' : '&nbsp;')]
+                        ]);
 
                     var hasFixVersions = thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0;
                     result += ' ' + $.htmlString('a', {
-                            'class': 'b-issue-label fixversions' + (!hasFixVersions ? ' no-fixversions' : ''),
+                            'class': 'b-issue-label fixversions' + (!hasFixVersions ? ' b-issue-label-empty' : ''),
                             title: 'Версии',
                             href: 'javascript:'
                         },
@@ -263,7 +269,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                         var description = $.htmlStringText(thisIssue.json.description),
                             descriptionPreview = description.length - previewLength < 5 ? description : description.substring(0, previewLength) + '&hellip;';
                         result += ' ' + $.htmlString([
-                            ['a', {'class': 'b-pseudo-link description-preview', title: 'Подробное описание'}, ['span', descriptionPreview]],
+                            ['span', {'class':'description-preview'}, ['a', {'class': 'b-pseudo-link', title: 'Подробное описание'}, ['span', descriptionPreview]]],
                             ['div', {'class': 'description'}, description]
                         ]);
                     }
@@ -387,6 +393,48 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                     e.target.form.comment.value
                 )}
             );
+            return false;
+        })
+        .delegate('click', '.components', function(){
+            thisIssue.startProgress();
+            jQuery.jsonRpc({
+                url: TinyJira.jira.url + 'plugins/servlet/rpc/json',
+                method: TinyJira.jira.soap + '.getComponents',
+                params: [TinyJira.jira.auth, thisIssue.json.project],
+                success: function(x){
+                    thisIssue.stopProgress();
+                    if (x.result) {
+                        thisIssue.createForm(2, $.htmlString([
+                                ['h3', 'Изменение компонент'],
+                                ['div', $.map(x.result, function(v, i){
+                                        if (v.archived) return null;
+                                        var id = 'component' + v.id,
+                                            attributes = {
+                                                id: id, name: 'components', type: 'checkbox',
+                                                value: v.id
+                                            };
+                                        if ($.map(
+                                                thisIssue.json.components,
+                                                function(vv){ return vv.id == v.id ? true : null}
+                                            ).length > 0) attributes.checked = 'checked';
+                                        return [
+                                                ['input', attributes],
+                                                ['label', {'for': id}, ' ' + v.name],
+                                                [null, '&emsp;']
+                                            ]
+                                    })
+                                ],
+                                ['br'],
+                                ['textarea', {name: 'comment', style: 'width: 100%; height: 100px;'}, '']
+                            ]),
+                            function(e){ thisIssue.updateWithComment(
+                                {components: $.map(e.target.form.components, function(i) { return i.checked ? i.value : null })},
+                                e.target.form.comment.value
+                            )}
+                        );
+                    }
+                }
+            });
             return false;
         })
         .delegate('click', '.fixversions', function(){
@@ -577,4 +625,5 @@ TinyJira.Issue.prototype.startProgress = function() {
 TinyJira.Issue.prototype.stopProgress = function() {
     this.enableForm();
     this.dom.find('td.progress').html('');
+    this.inProgress = false;
 };

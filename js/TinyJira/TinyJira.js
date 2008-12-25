@@ -96,11 +96,8 @@ var TinyJira = {
             }
         };
 
-        $.each(['beforeSend', 'error'], function(i, v) {
-            if (callbacks[v]) jsonRpcOptions[v] = callbacks[v];
-        });
+        if (callbacks.error) jsonRpcOptions.error = callbacks.error;
 
         jQuery.jsonRpc(jsonRpcOptions);
-
     }
 };
