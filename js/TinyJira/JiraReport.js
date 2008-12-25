@@ -30,7 +30,7 @@ TinyJira.JiraReport.prototype.toDOM = function(parentNode) {
             thisJiraReport.startProgress();
             TinyJira.createIssue({
                     project: TinyJira.JiraReport.project,
-                    type: '4',
+                    type: '1',
                     summary: e.target.form.summary.value,
                     description: e.target.form.description.value,
                     priority: '3',
