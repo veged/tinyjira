@@ -226,10 +226,11 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                 (function(){
                     var result = $.htmlString('a', {'class': 'b-issue-label summary', href: 'javascript:'}, '&ensp;' + $.htmlStringText(thisIssue.json.summary) + '&ensp;');
 
+                    var hasAssignee = !!thisIssue.json.assignee;
                     result += ' ' + $.htmlString('a', {'class':'b-issue-label assignee', title: 'Исполнитель', href: 'javascript:'}, [
                             [null, '&nbsp;&#9786;'],
-                            ['span', thisIssue.json.assignee.login || thisIssue.json.assignee],
-                            [null, '&ensp;']
+                            (hasAssignee ? ['span', thisIssue.json.assignee.login || thisIssue.json.assignee] : []),
+                            [null, hasAssignee ? '&ensp;' : '&nbsp;']
                         ]);
 
                     var hasComponents = thisIssue.json.components && thisIssue.json.components.length > 0;
@@ -241,7 +242,7 @@ TinyJira.Issue.prototype.toDOM = function(parentNode) {
                         [
                             [null, '&nbsp;&there4;'],
                             (hasComponents ? ['span', $.map(thisIssue.json.components, function(v){ return v.name }).join(', ')] : []),
-                            [null, (hasComponents ? '&ensp;' : '&nbsp;')]
+                            [null, hasComponents ? '&ensp;' : '&nbsp;']
                         ]);
 
                     var hasFixVersions = thisIssue.json.fixVersions && thisIssue.json.fixVersions.length > 0;
