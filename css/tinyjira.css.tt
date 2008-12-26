@@ -517,13 +517,13 @@ tr.with-inline-form .pr-normal-set a i {
 }
 
 .pr-critical-set a i,
-tr.hover .pr-critical-set a i.
+tr.hover .pr-critical-set a i,
 tr.with-inline-form .pr-critical-set a i {
     background-position: -64px 0;
 }
 
 .pr-blocker-set a i,
-tr.hover .pr-blocker-set a i.
+tr.hover .pr-blocker-set a i,
 tr.with-inline-form .pr-blocker-set a i {
     background-position: -80px 0;
 }
