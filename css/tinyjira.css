@@ -309,13 +309,14 @@ tr.hover .b-issue-label:hover
     color: #b82727 !important;
     border-color: #b82727;
 }
-
+/*
 .b-issue-label-empty
 {
     border: 1px solid #fcfdfe;
     background-color: #fcfdfe;
     color: #fcfdfe !important;
 }
+*/
 /* @end */
 
 
