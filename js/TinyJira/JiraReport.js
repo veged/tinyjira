@@ -116,9 +116,15 @@ $(document).ready(function(){
         ]);
     };
 
+    var urlParams = {};
+    if (location.search.length > 1) $.each(location.search.slice(1).split('&'), function(i, v){
+        var param = v.split('=');
+        urlParams[decodeURIComponent(param[0])] = decodeURIComponent(param[1]);
+    });
+
     $('.b-jira-report')
         .each(function(){
-            var params = this.onclick ? this.onclick() : {};
+            var params = $.extend(urlParams, this.onclick ? this.onclick() : {});
             TinyJira.JiraReport.project = params.project || 'NONPRJ';
             TinyJira.jira.url = params.jiraUrl || null;
         })
